@@ -1,0 +1,13 @@
+.vs/
+bin/
+obj/
+Client/bin/
+Client/obj/
+Extensions/bin/
+Extensions/obj/
+GrainInterfaces/bin/
+GrainInterfaces/obj/
+Grains/bin/
+Grains/obj/
+Silo/bin/
+Silo/obj/
