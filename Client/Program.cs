@@ -55,7 +55,7 @@ public class Program
         var result = await fileGrain.ProcessHistogram(dataInput);
         foreach (var item in result)
         {
-            Console.WriteLine(item);
+            Console.WriteLine($"Word Length: {item.Key} | encountered: {item.Value}");
         }
     }
 }
