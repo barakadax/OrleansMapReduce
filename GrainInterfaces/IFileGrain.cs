@@ -2,5 +2,5 @@
 
 public interface IFileGrain : IGrainWithStringKey
 {
-    Task<Dictionary<ulong, ulong>> ProcessHistogram(string rawText);
+    Task<Dictionary<ulong, ulong>?> ProcessHistogram(string rawText);
 }

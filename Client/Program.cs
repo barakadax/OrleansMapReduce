@@ -1,4 +1,5 @@
-﻿using GrainInterfaces;
+﻿using Extensions;
+using GrainInterfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,8 +14,8 @@ public class Program
         try
         {
             var client = await GetConnection();
-            var (name, data) = GetNameAndData();
-            await RunGrain(client, name, data);
+            var record = GetNameAndData();
+            await RunGrain(client, record.FileName, record.FileContent);
         }
         catch (Exception e) 
         {
@@ -43,17 +44,24 @@ public class Program
         return host.Services.GetRequiredService<IClusterClient>();
     }
 
-    private static (string, string) GetNameAndData()
+    private static InitRecord GetNameAndData()
     {
         var fileContent = File.ReadAllText("AIW.txt");
-        return ("Alice's Adventures in Wonderland", fileContent);
+        return new InitRecord() { FileName = "Alice's Adventures in Wonderland", FileContent = fileContent };
     }
 
     private static async Task RunGrain(IClusterClient client, string dataName, string dataInput)
     {
         var fileGrain = client.GetGrain<IFileGrain>(dataName);
         var result = await fileGrain.ProcessHistogram(dataInput);
-        foreach (var item in result)
+
+        if (result!.IsNullOrEmpty())
+        {
+            Console.WriteLine("Got empty result, check your text file or if an error occurred on silo side.");
+            return;
+        }
+
+        foreach (var item in result!)
         {
             Console.WriteLine($"Word Length: {item.Key} | encountered: {item.Value}");
         }

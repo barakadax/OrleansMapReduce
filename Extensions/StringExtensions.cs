@@ -14,23 +14,23 @@ public static class StringExtensions
         return str != null && str.Length != 0;
     }
 
-    public static bool IsNullOrEmpty(this Dictionary<object, object> str)
+    public static bool IsNullOrEmpty(this Dictionary<object, object> obj)
     {
-        return str == null || str.Count == 0;
+        return obj == null || obj.Count == 0;
     }
 
-    public static bool NotNullNorEmpty(this Dictionary<object, object> str)
+    public static bool NotNullNorEmpty(this Dictionary<object, object> obj)
     {
-        return str != null && str.Count != 0;
+        return obj != null && obj.Count != 0;
     }
 
-    public static bool IsNullOrEmpty(this Dictionary<ulong, ulong> str)
+    public static bool IsNullOrEmpty(this Dictionary<ulong, ulong> obj)
     {
-        return str == null || str.Count == 0;
+        return obj == null || obj.Count == 0;
     }
 
-    public static bool NotNullNorEmpty(this Dictionary<ulong, ulong> str)
+    public static bool NotNullNorEmpty(this Dictionary<ulong, ulong> obj)
     {
-        return str != null && str.Count != 0;
+        return obj != null && obj.Count != 0;
     }
 }

@@ -11,11 +11,16 @@ public partial class FileGrain : Grain, IFileGrain
     [GeneratedRegex("\\P{L}+")]
     private static partial Regex MyRegex();
 
-    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string rawText)
+    public async Task<Dictionary<ulong, ulong>?> ProcessHistogram(string rawText)
     {
         if (_result.NotNullNorEmpty())
         {
             return _result;
+        }
+
+        if (rawText.IsNullOrEmpty())
+        {
+            return null;
         }
 
         var fileData = MyRegex().Replace(rawText, " ").ToUpper().Split();
