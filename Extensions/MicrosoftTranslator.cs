@@ -6,9 +6,9 @@ namespace Extensions;
 
 public class MicrosoftTranslator
 {
-    private readonly string URL = "";
-    private readonly string KEY = "";
-    private readonly string REGION = "";
+    private string URL { get; init; } = "";
+    private string KEY { get; init; } = "";
+    private string REGION { get; init; } = "";
 
     public bool CanTranslate()
     {

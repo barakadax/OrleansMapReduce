@@ -11,3 +11,5 @@ Grains/bin/
 Grains/obj/
 Silo/bin/
 Silo/obj/
+Tests/bin/
+Tests/obj/
