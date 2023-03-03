@@ -1,17 +1,18 @@
 ﻿using Extensions;
+using Extensions.Interfaces;
 using GrainInterfaces;
 
 namespace Grains;
 public class WordGrain : Grain, IWordGrain
 {
-    private readonly MicrosoftTranslator _translator;
+    private readonly IMicrosoftTranslator _translator;
 
     private string? _translatedWord;
 
     public WordGrain()
     {
-        _translator = new();
         _translatedWord = null;
+        _translator = new MicrosoftTranslator();
     }
 
     public async Task<ulong> WordCalculate(string? word)

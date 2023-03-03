@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Ninject;
 using Orleans.Configuration;
 
 namespace Silo;
 
 public class Program
 {
-    private static async Task Main()
+    public static async Task Main()
     {
         try
         {

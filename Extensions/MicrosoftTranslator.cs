@@ -1,14 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using Extensions.Interfaces;
+using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
 namespace Extensions;
 
-public class MicrosoftTranslator
+public class MicrosoftTranslator : IMicrosoftTranslator
 {
-    private string URL { get; init; } = "";
-    private string KEY { get; init; } = "";
-    private string REGION { get; init; } = "";
+    private string URL { get; init; } = string.Empty;
+    private string KEY { get; init; } = string.Empty;
+    private string REGION { get; init; } = string.Empty;
 
     public bool CanTranslate()
     {

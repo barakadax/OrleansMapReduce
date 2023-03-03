@@ -9,7 +9,7 @@ namespace Client;
 
 public class Program
 {
-    private static async Task Main()
+    public static async Task Main()
     {
         try
         {
