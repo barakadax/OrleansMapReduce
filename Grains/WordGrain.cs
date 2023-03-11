@@ -14,7 +14,7 @@ public class WordGrain : Grain, IWordGrain
         _translator = translator;
     }
 
-    public async Task<ulong> WordCalculate(string? word)
+    public async Task<ulong> WordCalculate(string? word, string fileName)
     {
         if (_translatedWord!.IsNullOrEmpty() && _translator.CanTranslate())
         {
@@ -28,7 +28,7 @@ public class WordGrain : Grain, IWordGrain
 
         if (word!.NotNullNorEmpty())
         {
-            var numberGrain = GrainFactory.GetGrain<INumberGrain>(word!.Length);
+            var numberGrain = GrainFactory.GetGrain<INumberGrain>(fileName + word!.Length);
             numberGrain.Increase();
             return (ulong) word.Length;
         }

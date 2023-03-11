@@ -11,7 +11,7 @@ public partial class FileGrain : Grain, IFileGrain
     [GeneratedRegex("\\P{L}+")]
     private static partial Regex MyRegex();
 
-    public async Task<Dictionary<ulong, ulong>?> ProcessHistogram(string rawText)
+    public async Task<Dictionary<ulong, ulong>?> ProcessHistogram(string rawText, string fileName)
     {
         if (_result.NotNullNorEmpty())
         {
@@ -23,12 +23,12 @@ public partial class FileGrain : Grain, IFileGrain
             return null;
         }
 
-        var fileData = MyRegex().Replace(rawText, " ").ToUpper().Split();
+        var wordsInFile = MyRegex().Replace(rawText, " ").ToUpper().Split();
 
         var wordTasks = new List<Task<ulong>>();
-        foreach (var task in fileData)
+        foreach (var word in wordsInFile)
         {
-            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(task).WordCalculate(task));
+            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).WordCalculate(word, fileName));
         }
         await Task.WhenAll(wordTasks);
 
@@ -37,7 +37,7 @@ public partial class FileGrain : Grain, IFileGrain
         foreach (var length in lengthShowing)
         {
             _ = int.TryParse(length.ToString(), out var grainKey);
-            var counter = await GrainFactory.GetGrain<INumberGrain>(grainKey).GetCounter();
+            var counter = await GrainFactory.GetGrain<INumberGrain>(fileName + grainKey).GetCounter();
             _result.Add(length, counter);
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace GrainInterfaces; 
 
-public interface INumberGrain : IGrainWithIntegerKey
+public interface INumberGrain : IGrainWithStringKey
 {
     void Increase();
     Task<ulong> GetCounter();

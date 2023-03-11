@@ -53,7 +53,7 @@ public class Program
     private static async Task RunGrain(IClusterClient client, string dataName, string dataInput)
     {
         var fileGrain = client.GetGrain<IFileGrain>(dataName);
-        var result = await fileGrain.ProcessHistogram(dataInput);
+        var result = await fileGrain.ProcessHistogram(dataInput, dataName);
 
         if (result!.IsNullOrEmpty())
         {
