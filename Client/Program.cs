@@ -14,8 +14,11 @@ public class Program
         try
         {
             var client = await GetConnection();
-            var record = GetNameAndData();
-            await RunGrain(client, record.FileName, record.FileContent);
+            var mobyDick = GetMobyDick();
+            await RunGrain(client, mobyDick.FileName, mobyDick.FileContent);
+
+            var AIW = GetAIW();
+            await RunGrain(client, AIW.FileName, AIW.FileContent);
         }
         catch (Exception e) 
         {
@@ -44,16 +47,22 @@ public class Program
         return host.Services.GetRequiredService<IClusterClient>();
     }
 
-    private static InitRecord GetNameAndData()
+    private static InitRecord GetAIW()
     {
         var fileContent = File.ReadAllText("AIW.txt");
         return new InitRecord() { FileName = "Alice's Adventures in Wonderland", FileContent = fileContent };
     }
 
-    private static async Task RunGrain(IClusterClient client, string dataName, string dataInput)
+    private static InitRecord GetMobyDick()
     {
-        var fileGrain = client.GetGrain<IFileGrain>(dataName);
-        var result = await fileGrain.ProcessHistogram(dataInput, dataName);
+        var fileContent = File.ReadAllText("MobyDick.txt");
+        return new InitRecord() { FileName = "Moby Dick", FileContent = fileContent };
+    }
+
+    private static async Task RunGrain(IClusterClient client, string fileName, string fileContent)
+    {
+        var fileGrain = client.GetGrain<IFileGrain>(fileName);
+        var result = await fileGrain.ProcessHistogram(fileContent, fileName);
 
         if (result!.IsNullOrEmpty())
         {
@@ -61,9 +70,11 @@ public class Program
             return;
         }
 
+        Console.WriteLine($"{fileName}:");
         foreach (var item in result!)
         {
             Console.WriteLine($"Word Length: {item.Key} | encountered: {item.Value}");
         }
+        Console.WriteLine();
     }
 }
