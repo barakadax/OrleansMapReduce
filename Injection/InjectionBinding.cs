@@ -2,9 +2,9 @@
 using Extensions.Interfaces;
 using Ninject.Modules;
 
-namespace Silo;
+namespace Injection;
 
-public class NinjectBindings : NinjectModule
+public class InjectionBinding : NinjectModule
 {
     public override void Load()
     {

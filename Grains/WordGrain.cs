@@ -6,13 +6,12 @@ namespace Grains;
 public class WordGrain : Grain, IWordGrain
 {
     private readonly IMicrosoftTranslator _translator;
-
     private string? _translatedWord;
 
-    public WordGrain()
+    public WordGrain(IMicrosoftTranslator translator)
     {
         _translatedWord = null;
-        _translator = new MicrosoftTranslator();
+        _translator = translator;
     }
 
     public async Task<ulong> WordCalculate(string? word)
