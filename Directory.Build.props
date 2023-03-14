@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
+    <Company>Barakadax</Company>
     <Copyright>GNU Affero General Public License v3.0</Copyright>
     <Product>Map Reduce</Product>
     <Description>Using MS Orleans for map reduce example</Description>
@@ -8,5 +9,6 @@
     <TargetFramework>net7.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>latest</LangVersion>
+    <RuntimeIdentifiers>win;linux</RuntimeIdentifiers>
   </PropertyGroup>
 </Project>
