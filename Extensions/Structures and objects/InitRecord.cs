@@ -1,5 +1,8 @@
-﻿namespace Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Extensions.Interfaces;
+
+[ExcludeFromCodeCoverage]
 public readonly record struct InitRecord
 {
     public required string FileName { get; init; }

@@ -1,4 +1,5 @@
 ﻿using Extensions;
+using Extensions.Interfaces;
 using GrainInterfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -43,6 +44,7 @@ public class Program
 
         await host.StartAsync();
         Console.WriteLine("Connected to Silo!");
+        Console.WriteLine();
 
         return host.Services.GetRequiredService<IClusterClient>();
     }

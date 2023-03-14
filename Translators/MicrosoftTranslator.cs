@@ -5,9 +5,11 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System.Net;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Translators;
 
+[ExcludeFromCodeCoverage]
 public class MicrosoftTranslator : IMicrosoftTranslator
 {
     private const string CredentialsPath = "JSONs/credentials.json";

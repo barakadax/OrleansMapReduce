@@ -4,6 +4,7 @@ using Translators.Interfaces;
 using GrainInterfaces;
 
 namespace Grains;
+
 public class WordGrain : Grain, IWordGrain
 {
     private readonly ITranslatedWordsDictionary _translatedDictionary;

@@ -1,5 +1,8 @@
-﻿namespace Extensions.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Extensions.Interfaces;
+
+[ExcludeFromCodeCoverage]
 public readonly record struct Binding
 {
     public required Type Interface { get; init; }
