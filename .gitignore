@@ -5,11 +5,13 @@ Client/bin/
 Client/obj/
 Extensions/bin/
 Extensions/obj/
+FunctionalTests/bin/
+FunctionalTests/obj/
 GrainInterfaces/bin/
 GrainInterfaces/obj/
 Grains/bin/
 Grains/obj/
 Silo/bin/
 Silo/obj/
-Tests/bin/
-Tests/obj/
+UnitTests/bin/
+UnitTests/obj/
