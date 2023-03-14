@@ -23,7 +23,7 @@ public partial class FileGrain : Grain, IFileGrain
             return null;
         }
 
-        var wordsInFile = MyRegex().Replace(rawText, " ").ToUpper().Split();
+        var wordsInFile = MyRegex().Replace(rawText, " ").ToUpper().Split(' ',StringSplitOptions.RemoveEmptyEntries);
 
         var wordTasks = new List<Task<ulong>>();
         foreach (var word in wordsInFile)

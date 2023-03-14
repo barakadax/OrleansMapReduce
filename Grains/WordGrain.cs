@@ -18,14 +18,14 @@ public class WordGrain : Grain, IWordGrain
 
     public async Task<ulong> WordCalculate(string? word, string fileName)
     {
-        if (_translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty() && _translatedDictionary.TranslatedWords.ContainsKey(word!.ToLower()))
+        if (_translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty() && _translatedDictionary.TranslatedWords.ContainsKey(word!))
         {
-            _translatedWord = _translatedDictionary.TranslatedWords[word];
+            _translatedWord = _translatedDictionary.TranslatedWords[word!];
         }
         else if (_translatedWord!.IsNullOrEmpty() && _translator.CanTranslate())
         {
             _translatedWord = await _translator.GetWordTranslation(word);
-            _translatedDictionary.TranslatedWords.TryAdd(word!.ToLower(), _translatedWord!);
+            _translatedDictionary.TranslatedWords.TryAdd(word!, _translatedWord!);
         }
 
         if (_translatedWord!.NotNullNorEmpty())

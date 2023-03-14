@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <Copyright>GNU Affero General Public License v3.0</Copyright>
+    <Product>Map Reduce</Product>
+    <Description>Using MS Orleans for map reduce example</Description>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <TargetFramework>net7.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+</Project>

@@ -18,8 +18,7 @@ Word Length: 12 | encountered: 34<br>
 Word Length: 13 | encountered: 11<br>
 Word Length: 14 | encountered: 5<br>
 <br>
-## Moby Dick (need better regex to be fixed) Result:
-Word Length: 0 | encountered: 0<br>
+## Moby Dick Result:
 Word Length: 1 | encountered: 5050<br>
 Word Length: 2 | encountered: 18422<br>
 Word Length: 3 | encountered: 24837<br>
