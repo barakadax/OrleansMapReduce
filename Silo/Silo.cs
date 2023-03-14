@@ -1,6 +1,4 @@
-﻿using Extensions;
-using Extensions.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
@@ -26,8 +24,6 @@ public static class Silo
 
     private static async Task<IHost> GetSilo()
     {
-        var kernel = Injection.Host.BindInjection();
-
         var host = new HostBuilder()
             .UseOrleans(silo =>
             {
@@ -40,7 +36,10 @@ public static class Silo
                     })
                     .ConfigureServices(services =>
                     {
-                        services.AddSingleton<IMicrosoftTranslator, MicrosoftTranslator>();  // change to use kernel
+                        foreach(var binding in DIBinding.Bindings)
+                        {
+                            services.AddSingleton(binding.Interface, binding.Class);
+                        }
                     });
             }).Build();
 

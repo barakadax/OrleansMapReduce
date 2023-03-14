@@ -11,15 +11,11 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="7.1.0" />
-    <PackageReference Include="Ninject" Version="3.3.6" />
-    <PackageReference Include="ninject.extensions.conventions" Version="3.3.0" />
-    <PackageReference Include="Ninject.Web.Common" Version="3.3.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GrainInterfaces\GrainInterfaces.csproj" />
     <ProjectReference Include="..\Grains\Grains.csproj" />
-    <ProjectReference Include="..\Injection\Injection.csproj" />
   </ItemGroup>
 
 </Project>
