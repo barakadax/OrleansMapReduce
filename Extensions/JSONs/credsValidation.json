@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "URL": {
+      "type": [ "string", "null" ]
+    },
+    "KEY": {
+      "type": [ "string", "null" ]
+    },
+    "REGION": {
+      "type": [ "string", "null" ]
+    }
+  },
+  "required": [ "URL", "KEY", "REGION" ],
+  "additionalProperties": false
+}

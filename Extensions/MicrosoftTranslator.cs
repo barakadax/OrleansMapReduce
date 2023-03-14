@@ -1,5 +1,7 @@
 ﻿using Extensions.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 using System.Net;
 using System.Text;
 
@@ -7,9 +9,24 @@ namespace Extensions;
 
 public class MicrosoftTranslator : IMicrosoftTranslator
 {
-    private string URL { get; init; } = string.Empty;
-    private string KEY { get; init; } = string.Empty;
-    private string REGION { get; init; } = string.Empty;
+    private const string CredentialsPath = "JSONs/credentials.json";
+    private const string CredentialsValidationPath = "JSONs/credsValidation.json";
+    private readonly string URL = string.Empty;
+    private readonly string KEY = string.Empty;
+    private readonly string REGION = string.Empty;
+
+    public MicrosoftTranslator()
+    {
+        var credentialsJSchema = JSchema.Parse(File.ReadAllText(CredentialsValidationPath));
+        var translateCredentialsJObj = JObject.Parse(File.ReadAllText(CredentialsPath));
+
+        if (translateCredentialsJObj.IsValid(credentialsJSchema))
+        {
+            URL = translateCredentialsJObj["URL"]?.Value<string>() ?? string.Empty;
+            KEY = translateCredentialsJObj["KEY"]?.Value<string>() ?? string.Empty;
+            REGION = translateCredentialsJObj["REGION"]?.Value<string>() ?? string.Empty;
+        }
+    }
 
     public bool CanTranslate()
     {
