@@ -1,5 +1,11 @@
 ﻿using NUnit.Framework;
 using GrainInterfaces;
+using Extensions.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Translators.Interfaces;
+using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace FunctionalTests;
 
@@ -72,5 +78,30 @@ public class WordGrainTests
 
         // Assert
         Assert.AreEqual(0, result);
+    }
+
+    [Test]
+    public void CalculateWordLength_Throws_ShouldGetAnException()
+    {
+        // Arrange
+        var builder = new TestHost();
+        var serviceProvider = builder.Cluster.ServiceProvider;
+        var serviceCollection = serviceProvider.GetService<IServiceCollection>();
+        var wordGrain = builder.Cluster.GrainFactory.GetGrain<IWordGrain>("fileName");
+
+        // Remove binding
+        var existingRegistration = serviceProvider.GetService(typeof(IMicrosoftTranslator));
+        if (existingRegistration != null)
+        {
+            serviceCollection!.RemoveAll<IMicrosoftTranslator>();
+        }
+
+        // Add binding
+        var translateMock = Substitute.For<IMicrosoftTranslator>();
+        translateMock.CanTranslate().Throws(new Exception());
+        serviceCollection!.AddSingleton(translateMock);
+
+        // Act + Assert
+        Assert.ThrowsAsync<Exception>(async () => await wordGrain.WordCalculate(string.Empty, "fileName"));
     }
 }

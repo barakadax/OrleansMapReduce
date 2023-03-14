@@ -1,6 +1,6 @@
 # Microsoft Orleans MapReduce
 
-Start a Silo, run your client and see how much word with the same length are in the same text.<br>
+Start a Silo, run your client and see how much words with the same length are in the same text.<br>
 <br>
 ## Alice's Adventures in Wonderland Result:
 Word Length: 1 | encountered: 1705<br>
