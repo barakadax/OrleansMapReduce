@@ -5,9 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Client;
 
+[ExcludeFromCodeCoverage]
 public class Program
 {
     public static async Task Main()

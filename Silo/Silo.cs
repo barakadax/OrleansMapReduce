@@ -4,9 +4,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Silo;
 
+[ExcludeFromCodeCoverage]
 public static class Silo
 {
     public static async Task RunSilo()
