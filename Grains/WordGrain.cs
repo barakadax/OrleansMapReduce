@@ -24,7 +24,7 @@ public class WordGrain : Grain, IWordGrain
         {
             _translatedWord = _translatedDictionary.TranslatedWords[word!];
         }
-        else if (_translatedWord!.IsNullOrEmpty() && _translator.CanTranslate())
+        else if (_translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty() && _translator.CanTranslate())
         {
             _translatedWord = await _translator.GetWordTranslation(word);
             _translatedDictionary.TranslatedWords.TryAdd(word!, _translatedWord!);
@@ -38,7 +38,7 @@ public class WordGrain : Grain, IWordGrain
         if (word!.NotNullNorEmpty())
         {
             var numberGrain = GrainFactory.GetGrain<INumberGrain>(fileName + word!.Length);
-            numberGrain.Increase();
+            await numberGrain.Increase();
             return (ulong) word.Length;
         }
 

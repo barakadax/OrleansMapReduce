@@ -2,6 +2,6 @@
 
 public interface INumberGrain : IGrainWithStringKey
 {
-    void Increase();
+    Task Increase();
     Task<ulong> GetCounter();
 }

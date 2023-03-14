@@ -11,8 +11,9 @@ public class NumberGrain : Grain, INumberGrain
         return Task.FromResult(_counter);
     }
 
-    public void Increase()
+    public Task Increase()
     {
         _counter++;
+        return Task.CompletedTask;
     }
 }
