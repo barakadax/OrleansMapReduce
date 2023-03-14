@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Extensions.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
+using System.Collections.Concurrent;
 
 namespace Silo;
 
@@ -24,6 +26,11 @@ public static class Silo
 
     private static async Task<IHost> GetSilo()
     {
+        var wordsTranslateDict = new TranslatedWordsDictionary()
+        {
+            TranslatedWords = new ConcurrentDictionary<string, string>()
+        };
+
         var host = new HostBuilder()
             .UseOrleans(silo =>
             {
@@ -36,7 +43,9 @@ public static class Silo
                     })
                     .ConfigureServices(services =>
                     {
-                        foreach(var binding in DIBinding.Bindings)
+                        services.AddSingleton<ITranslatedWordsDictionary>(wordsTranslateDict);
+
+                        foreach (var binding in DIBinding.Bindings)
                         {
                             services.AddSingleton(binding.Interface, binding.Class);
                         }
