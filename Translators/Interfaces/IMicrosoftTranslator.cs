@@ -1,4 +1,4 @@
-﻿namespace Extensions.Interfaces;
+﻿namespace Translators.Interfaces;
 
 public interface IMicrosoftTranslator
 {

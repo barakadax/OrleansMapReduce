@@ -13,5 +13,7 @@ Grains/bin/
 Grains/obj/
 Silo/bin/
 Silo/obj/
+Translators/bin/
+Translators/obj/
 UnitTests/bin/
 UnitTests/obj/

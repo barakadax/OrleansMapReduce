@@ -1,11 +1,12 @@
-﻿using Extensions.Interfaces;
+﻿using Extensions;
+using Translators.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System.Net;
 using System.Text;
 
-namespace Extensions;
+namespace Translators;
 
 public class MicrosoftTranslator : IMicrosoftTranslator
 {
