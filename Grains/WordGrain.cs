@@ -9,7 +9,7 @@ public class WordGrain : Grain, IWordGrain
 {
     private readonly ITranslatedWordsDictionary _translatedDictionary;
     private readonly IMicrosoftTranslator _translator;
-    private string? _translatedWord;
+    private string _translatedWord;
 
     public WordGrain(IMicrosoftTranslator translator, ITranslatedWordsDictionary translatedDictionary)
     {
@@ -18,7 +18,7 @@ public class WordGrain : Grain, IWordGrain
         _translatedDictionary = translatedDictionary;
     }
 
-    public async Task<ulong> WordCalculate(string? word, string fileName)
+    public async Task<ulong> WordCalculate(string word, string fileName)
     {
         if (_translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty() && _translatedDictionary.TranslatedWords.ContainsKey(word!))
         {

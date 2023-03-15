@@ -37,3 +37,15 @@ Word Length: 15 | encountered: 35<br>
 Word Length: 16 | encountered: 7<br>
 Word Length: 17 | encountered: 5<br>
 <br>
+### TODO:
+<ul>
+  <li>Finish functional test</li>
+  <li>Add rest:</li>
+  <ol>
+    <li>Post -> text only</li>
+    <li>Post -> text + origin</li>
+    <li>Get -> origin</li>
+  </ol>
+  <li>Swagger + UI</li>
+  <li>Database to save all origin result to get saved result instead of calcualte (don't want to keep in memory all the results)</li>
+</ul>

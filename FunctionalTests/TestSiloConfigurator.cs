@@ -24,14 +24,32 @@ public class TestSiloConfigurations : ISiloConfigurator
     }
 }
 
-public class TestHost : IDisposable
+public class TestSiloConfigurationsMocks : ISiloConfigurator
+{
+    public void Configure(ISiloBuilder siloBuilder)
+    {
+        siloBuilder.ConfigureServices(services => {
+            services.AddSingleton<ITranslatedWordsDictionary>(new TranslatedWordsDictionary()
+            {
+                TranslatedWords = new ConcurrentDictionary<string, string>()
+            });
+
+            foreach (var binding in DIBinding.Bindings)
+            {
+                services.AddSingleton(binding.Interface, binding.Class);
+            }
+        });
+    }
+}
+
+public class TestHost<T> : IDisposable where T : class, new()
 {
     public TestCluster Cluster { get; }
 
     public TestHost()
     {
         var builder = new TestClusterBuilder();
-        builder.AddSiloBuilderConfigurator<TestSiloConfigurations>();
+        builder.AddSiloBuilderConfigurator<T>();
         Cluster = builder.Build();
         Cluster.Deploy();
     }

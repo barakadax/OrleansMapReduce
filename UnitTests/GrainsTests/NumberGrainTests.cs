@@ -12,13 +12,16 @@ public class NumberGrainTests
     public async Task Increase_PerCase_ShouldSucceed(int counter)
     {
         // Arrange
+        var taskList = new List<Task>();
         var numberGrain = new NumberGrain();
 
         // Act
         for (int i = 0; i < counter; i -= -1)
         {
-            numberGrain.Increase();
+            taskList.Add(numberGrain.Increase());
         }
+
+        await Task.WhenAll(taskList);
 
         // Assert
         Assert.AreEqual(counter, await numberGrain.GetCounter());

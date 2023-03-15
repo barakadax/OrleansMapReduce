@@ -16,12 +16,27 @@ public class Program
     {
         try
         {
+            var taskList = new List<(Task<Dictionary<ulong, ulong>>, string)>();
             var client = await GetConnection();
             var mobyDick = GetMobyDick();
-            await RunGrain(client, mobyDick.FileName, mobyDick.FileContent);
+            taskList.Add(RunGrain(client, mobyDick.FileName, mobyDick.FileContent));
 
             var AIW = GetAIW();
-            await RunGrain(client, AIW.FileName, AIW.FileContent);
+            taskList.Add(RunGrain(client, AIW.FileName, AIW.FileContent));
+
+            var results = await Task.WhenAll(taskList.Select(async x => (await x.Item1, x.Item2)));
+
+            foreach(var result in results)
+            {
+                if (result.Item1.NotNullNorEmpty())
+                {
+                    ReadResult(result.Item1, result.Item2);
+                }
+                else
+                {
+                    Console.WriteLine("Text wasn\'t processed.");
+                }
+            }
         }
         catch (Exception e) 
         {
@@ -63,18 +78,15 @@ public class Program
         return new InitRecord() { FileName = "Moby Dick", FileContent = fileContent };
     }
 
-    private static async Task RunGrain(IClusterClient client, string fileName, string fileContent)
+    private static (Task<Dictionary<ulong, ulong>>, string) RunGrain(IClusterClient client, string fileName, string fileContent)
     {
         var fileGrain = client.GetGrain<IFileGrain>(fileName);
-        var result = await fileGrain.ProcessHistogram(fileContent, fileName);
+        return (fileGrain.ProcessHistogram(fileContent, fileName), fileName);
+    }
 
-        if (result!.IsNullOrEmpty())
-        {
-            Console.WriteLine("Got empty result, check your text file or if an error occurred on silo side.");
-            return;
-        }
-
-        Console.WriteLine($"{fileName}:");
+    private static void ReadResult(Dictionary<ulong, ulong> result, string origin)
+    {
+        Console.WriteLine($"{origin}:");
         foreach (var item in result!)
         {
             Console.WriteLine($"Word Length: {item.Key} | encountered: {item.Value}");

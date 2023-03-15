@@ -14,9 +14,9 @@ public class MicrosoftTranslator : IMicrosoftTranslator
 {
     private const string CredentialsPath = "JSONs/credentials.json";
     private const string CredentialsValidationPath = "JSONs/credsValidation.json";
-    private readonly string URL = string.Empty;
-    private readonly string KEY = string.Empty;
-    private readonly string REGION = string.Empty;
+    private readonly string URL;
+    private readonly string KEY;
+    private readonly string REGION;
 
     public MicrosoftTranslator()
     {
@@ -25,9 +25,9 @@ public class MicrosoftTranslator : IMicrosoftTranslator
 
         if (translateCredentialsJObj.IsValid(credentialsJSchema))
         {
-            URL = translateCredentialsJObj["URL"]?.Value<string>() ?? string.Empty;
-            KEY = translateCredentialsJObj["KEY"]?.Value<string>() ?? string.Empty;
-            REGION = translateCredentialsJObj["REGION"]?.Value<string>() ?? string.Empty;
+            URL = translateCredentialsJObj["URL"].Value<string>();
+            KEY = translateCredentialsJObj["KEY"].Value<string>();
+            REGION = translateCredentialsJObj["REGION"].Value<string>();
         }
     }
 
@@ -36,7 +36,7 @@ public class MicrosoftTranslator : IMicrosoftTranslator
         return URL.NotNullNorEmpty() && KEY.NotNullNorEmpty() && REGION.NotNullNorEmpty();
     }
 
-    public async Task<string?> GetWordTranslation(string? word)
+    public async Task<string> GetWordTranslation(string word)
     {
         if (!CanTranslate())
         {
@@ -63,17 +63,17 @@ public class MicrosoftTranslator : IMicrosoftTranslator
         }
 
         var jsonResult = await response.Content.ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<List<AllTranslation>>(jsonResult)?[0]?.Translations?[0]?.Text;
+        return JsonConvert.DeserializeObject<List<AllTranslation>>(jsonResult)[0].Translations[0].Text;
     }
 
     private class AllTranslation
     {
-        public Translation[]? Translations { get; set; }
+        public Translation[] Translations { get; set; }
     }
 
     private class Translation
     {
-        public string? Text { get; set; }
-        public string? To { get; set; }
+        public string Text { get; set; }
+        public string To { get; set; }
     }
 }

@@ -9,9 +9,9 @@ public partial class FileGrain : Grain, IFileGrain
     private readonly Dictionary<ulong, ulong> _result = new ();
 
     [GeneratedRegex("\\P{L}+")]
-    private static partial Regex MyRegex();
+    protected static partial Regex MyRegex();
 
-    public async Task<Dictionary<ulong, ulong>?> ProcessHistogram(string rawText, string fileName)
+    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string rawText, string fileName)
     {
         if (_result.NotNullNorEmpty())
         {

@@ -28,7 +28,7 @@ public class ExtensionsMethodsTests
     public void UlongUlongDictionary_IsNullOrEmpty_Null_ShouldReturnTrue()
     {
         // Arrange
-        Dictionary<ulong, ulong>? value = null;
+        Dictionary<ulong, ulong> value = null;
 
         // Act + Arrange
         Assert.IsTrue(value!.IsNullOrEmpty());
@@ -58,7 +58,7 @@ public class ExtensionsMethodsTests
     public void UlongUlongDictionary_NotNullNorEmpty_Null_ShouldReturnFalse()
     {
         // Arrange
-        Dictionary<ulong, ulong>? value = null;
+        Dictionary<ulong, ulong> value = null;
 
         // Act + Arrange
         Assert.IsFalse(value!.NotNullNorEmpty());

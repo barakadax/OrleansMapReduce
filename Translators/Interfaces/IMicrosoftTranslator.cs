@@ -3,5 +3,5 @@
 public interface IMicrosoftTranslator
 {
     bool CanTranslate();
-    Task<string?> GetWordTranslation(string? word);
+    Task<string> GetWordTranslation(string word);
 }
