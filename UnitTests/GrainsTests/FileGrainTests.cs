@@ -1,4 +1,5 @@
-﻿using Grains;
+﻿using Extensions;
+using Grains;
 using NUnit.Framework;
 
 namespace UnitTests.GrainsTests;
@@ -6,6 +7,19 @@ namespace UnitTests.GrainsTests;
 [TestFixture]
 public class FileGrainTests
 {
+    [Test]
+    public async Task GetResultWithoutProcessing_NeverCalculated_ShouldReturnEmpty()
+    {
+        // Assert
+        var fileGrain = new FileGrain();
+
+        // Act
+        var result = await fileGrain.GetResultWithoutProcessing();
+
+        // Assert
+        Assert.IsTrue(result.IsNullOrEmpty());
+    }
+
     [Test]
     public async Task ProcessHistogram_TextIsNull_ShouldReturnNull()
     {

@@ -1,7 +1,7 @@
 ﻿using Grains;
 using NUnit.Framework;
 
-namespace Tests.GrainsTests;
+namespace UnitTests.GrainsTests;
 
 [TestFixture]
 public class NumberGrainTests
