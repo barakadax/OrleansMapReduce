@@ -39,7 +39,6 @@ Word Length: 17 | encountered: 5<br>
 <br>
 ### TODO:
 <ul>
-  <li>Finish functional test</li>
   <li>Add rest:</li>
   <ol>
     <li>Post -> text only</li>
@@ -47,5 +46,6 @@ Word Length: 17 | encountered: 5<br>
     <li>Get -> origin</li>
   </ol>
   <li>Swagger + UI</li>
+  <li>Api tests</li>
   <li>Database to save all origin result to get saved result instead of calcualte (don't want to keep in memory all the results)</li>
 </ul>

@@ -11,19 +11,19 @@ public partial class FileGrain : Grain, IFileGrain
     [GeneratedRegex("\\P{L}+")]
     protected static partial Regex MyRegex();
 
-    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string rawText, string fileName)
+    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string text, string fileName)
     {
         if (_result.NotNullNorEmpty())
         {
             return _result;
         }
 
-        if (rawText.IsNullOrEmpty())
+        if (text.IsNullOrEmpty() || fileName.IsNullOrEmpty())
         {
             return null;
         }
 
-        var wordsInFile = MyRegex().Replace(rawText, " ").ToUpper().Split(' ',StringSplitOptions.RemoveEmptyEntries);
+        var wordsInFile = MyRegex().Replace(text, " ").ToUpper().Split(' ',StringSplitOptions.RemoveEmptyEntries);
 
         var wordTasks = new List<Task<ulong>>();
         foreach (var word in wordsInFile)
