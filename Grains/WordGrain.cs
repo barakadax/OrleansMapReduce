@@ -24,7 +24,7 @@ public class WordGrain : Grain, IWordGrain
         {
             _translatedWord = _translatedDictionary.TranslatedWords[word!];
         }
-        else if (_translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty() && _translator.CanTranslate())
+        else if (_translator.CanTranslate() && _translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty())
         {
             _translatedWord = await _translator.GetWordTranslation(word);
             _translatedDictionary.TranslatedWords.TryAdd(word!, _translatedWord!);

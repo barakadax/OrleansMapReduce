@@ -89,16 +89,16 @@ public class WordGrainTests
         Assert.AreEqual(0, result);
     }
 
-    //[Test]
-    //[NonParallelizable]
-    //public void CalculateWordLength_Throws_ShouldGetAnException()
-    //{
-    //    // Arrange
-    //    var fileName = Guid.NewGuid().ToString("N");
-    //    var builder = new TestHost();
-    //    var wordGrain = builder.Cluster.GrainFactory.GetGrain<IWordGrain>(fileName);
+    [Test]
+    [NonParallelizable]
+    public void CalculateWordLength_Throws_ShouldGetAnException()
+    {
+        // Arrange
+        var fileName = Guid.NewGuid().ToString("N");
+        var builder = new TestHost<TestSiloConfigurationsThrows>();
+        var wordGrain = builder.Cluster.GrainFactory.GetGrain<IWordGrain>(fileName);
 
-    //    // Act + Assert
-    //    Assert.ThrowsAsync<Exception>(async () => await wordGrain.WordCalculate(string.Empty, fileName));
-    //}
+        // Act + Assert
+        Assert.ThrowsAsync<Exception>(async () => await wordGrain.WordCalculate(string.Empty, fileName));
+    }
 }
