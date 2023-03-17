@@ -39,6 +39,8 @@ Word Length: 17 | encountered: 5<br>
 <br>
 ### TODO:
 <ul>
+  <li>New grain RequestGrain that will handle creating file grains and will get multiple input</li>
+  <li>Refactor the name file to name and refactor the name content/data to text</li>
   <li>Add rest:</li>
   <ol>
     <li>Post -> text only</li>
@@ -47,5 +49,4 @@ Word Length: 17 | encountered: 5<br>
   </ol>
   <li>Swagger + UI</li>
   <li>Api tests</li>
-  <li>Database to save all origin result to get saved result instead of calcualte (don't want to keep in memory all the results)</li>
 </ul>
