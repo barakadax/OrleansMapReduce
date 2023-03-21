@@ -7,7 +7,7 @@ namespace UnitTests.GrainsTests;
 public class WordGrainTests
 {
     [Test]
-    public async Task CalculateWordLength_Throws_ShouldGetAnException()
+    public void CalculateWordLength_Throws_ShouldGetAnException()
     {
         // Assert
         var wordGrain = new WordGrain(null, null);
