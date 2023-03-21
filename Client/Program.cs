@@ -26,7 +26,7 @@ public class Program
 
             var results = await Task.WhenAll(taskList.Select(async x => (await x.Item1, x.Item2)));
 
-            foreach(var result in results)
+            foreach (var result in results)
             {
                 if (result.Item1.NotNullNorEmpty())
                 {
@@ -38,7 +38,7 @@ public class Program
                 }
             }
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             Console.WriteLine(e.Message);
         }
@@ -49,7 +49,7 @@ public class Program
         var host = new HostBuilder()
         .UseOrleansClient(client =>
         {
-            client.UseLocalhostClustering()
+            _ = client.UseLocalhostClustering()
             .Configure<ClusterOptions>(options =>
             {
                 options.ClusterId = "MapReduce";

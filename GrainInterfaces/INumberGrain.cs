@@ -1,4 +1,4 @@
-﻿namespace GrainInterfaces; 
+﻿namespace GrainInterfaces;
 
 public interface INumberGrain : IGrainWithStringKey
 {

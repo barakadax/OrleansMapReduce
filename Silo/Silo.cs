@@ -17,7 +17,7 @@ public static class Silo
         {
             var silo = await GetSilo();
             Console.WriteLine("Silo has started running, press enter to terminate.");
-            Console.ReadLine();
+            _ = Console.ReadLine();
             await silo.StopAsync();
         }
         catch (Exception e)
@@ -36,7 +36,7 @@ public static class Silo
         var host = new HostBuilder()
             .UseOrleans(silo =>
             {
-                silo.UseLocalhostClustering()
+                _ = silo.UseLocalhostClustering()
                     .ConfigureLogging(logging => logging.AddConsole())
                     .Configure<ClusterOptions>(options =>
                     {
@@ -45,11 +45,11 @@ public static class Silo
                     })
                     .ConfigureServices(services =>
                     {
-                        services.AddSingleton<ITranslatedWordsDictionary>(wordsTranslateDict);
+                        _ = services.AddSingleton<ITranslatedWordsDictionary>(wordsTranslateDict);
 
                         foreach (var binding in DIBinding.Bindings)
                         {
-                            services.AddSingleton(binding.Interface, binding.Class);
+                            _ = services.AddSingleton(binding.Interface, binding.Class);
                         }
                     });
             }).Build();

@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Tests.ExtensionsTests;
 
 [TestFixture]
-public class ExtensionsMethodsTests 
+public class ExtensionsMethodsTests
 {
     [TestCase("", true)]
     [TestCase(null, true)]

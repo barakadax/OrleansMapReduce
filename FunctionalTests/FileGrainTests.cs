@@ -50,7 +50,7 @@ public class FileGrainTests
         var text = "hey, how are you this day, I ate a banana\nמילים";
 
         // Act
-        await fileGrain.ProcessHistogram(text, fileName);
+        _ = await fileGrain.ProcessHistogram(text, fileName);
         var result = await fileGrain.GetResultWithoutProcessing();
 
         // Assert
@@ -72,6 +72,6 @@ public class FileGrainTests
         var fileGrain = builder.Cluster.GrainFactory.GetGrain<IFileGrain>(text);
 
         // Act + Assert
-        Assert.ThrowsAsync<Exception>(async () => await fileGrain.ProcessHistogram(text, text));
+        _ = Assert.ThrowsAsync<Exception>(async () => await fileGrain.ProcessHistogram(text, text));
     }
 }

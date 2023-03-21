@@ -6,7 +6,7 @@ namespace Grains;
 
 public partial class FileGrain : Grain, IFileGrain
 {
-    private readonly Dictionary<ulong, ulong> _result = new ();
+    private readonly Dictionary<ulong, ulong> _result = new();
 
     [GeneratedRegex("\\P{L}+")]
     protected static partial Regex MyRegex();
@@ -28,14 +28,14 @@ public partial class FileGrain : Grain, IFileGrain
             return null;
         }
 
-        var wordsInFile = MyRegex().Replace(text, " ").ToUpper().Split(' ',StringSplitOptions.RemoveEmptyEntries);
+        var wordsInFile = MyRegex().Replace(text, " ").ToUpper().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
         var wordTasks = new List<Task<ulong>>();
         foreach (var word in wordsInFile)
         {
             wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).WordCalculate(word, fileName));
         }
-        await Task.WhenAll(wordTasks);
+        _ = await Task.WhenAll(wordTasks);
 
         var lengthShowing = wordTasks.Select(x => x.Result).Distinct().OrderBy(x => x).ToArray();
 

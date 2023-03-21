@@ -13,15 +13,16 @@ public class TestSiloConfigurations : ISiloConfigurator
 {
     public void Configure(ISiloBuilder siloBuilder)
     {
-        siloBuilder.ConfigureServices(services => {
-            services.AddSingleton<ITranslatedWordsDictionary>(new TranslatedWordsDictionary()
+        _ = siloBuilder.ConfigureServices(services =>
+        {
+            _ = services.AddSingleton<ITranslatedWordsDictionary>(new TranslatedWordsDictionary()
             {
                 TranslatedWords = new ConcurrentDictionary<string, string>()
             });
 
             foreach (var binding in DIBinding.Bindings)
             {
-                services.AddSingleton(binding.Interface, binding.Class);
+                _ = services.AddSingleton(binding.Interface, binding.Class);
             }
         });
     }
@@ -31,15 +32,16 @@ public class TestSiloConfigurationsThrows : ISiloConfigurator
 {
     public void Configure(ISiloBuilder siloBuilder)
     {
-        siloBuilder.ConfigureServices(services => {
-            services.AddSingleton<ITranslatedWordsDictionary>(new TranslatedWordsDictionary()
+        _ = siloBuilder.ConfigureServices(services =>
+        {
+            _ = services.AddSingleton<ITranslatedWordsDictionary>(new TranslatedWordsDictionary()
             {
                 TranslatedWords = new ConcurrentDictionary<string, string>()
             });
 
             var mock = Substitute.For<IMicrosoftTranslator>();
-            mock.CanTranslate().Throws(new Exception());
-            services.AddSingleton<IMicrosoftTranslator>(mock);
+            _ = mock.CanTranslate().Throws(new Exception());
+            _ = services.AddSingleton<IMicrosoftTranslator>(mock);
         });
     }
 }
@@ -51,7 +53,7 @@ public class TestHost<T> : IDisposable where T : class, new()
     public TestHost()
     {
         var builder = new TestClusterBuilder();
-        builder.AddSiloBuilderConfigurator<T>();
+        _ = builder.AddSiloBuilderConfigurator<T>();
         Cluster = builder.Build();
         Cluster.Deploy();
     }
