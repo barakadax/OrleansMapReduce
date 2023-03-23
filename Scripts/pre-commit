@@ -3,6 +3,6 @@ LC_ALL=C
 FILES=$(git diff --cached --name-only --diff-filter=ACM "*cs" | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 
-echo "$FILES" | cat | xargs | sed -e 's/ /,/g' | xargs dotnet format --include
+echo "$FILES" | cat | xargs | sed -e 's/ /,/g' | xargs dotnet format --severity info --include
 echo "$FILES" | xargs git add
 exit 0

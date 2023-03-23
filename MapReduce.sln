@@ -27,6 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionalTests", "Function
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Translators", "Translators\Translators.csproj", "{E6F98393-A7AC-427B-8D28-D059DCC14395}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{17CE02C1-DE2F-40F6-A8DB-8ACFE23233D9}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\pre-commit = Scripts\pre-commit
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
