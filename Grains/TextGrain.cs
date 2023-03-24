@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Grains;
 
-public partial class FileGrain : Grain, IFileGrain
+public partial class TextGrain : Grain, ITextGrain
 {
     private readonly Dictionary<ulong, ulong> _result = new();
 
@@ -16,24 +16,24 @@ public partial class FileGrain : Grain, IFileGrain
         return Task.FromResult(_result);
     }
 
-    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string text, string fileName)
+    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string text, string name)
     {
         if (_result.NotNullNorEmpty())
         {
             return _result;
         }
 
-        if (text.IsNullOrEmpty() || fileName.IsNullOrEmpty())
+        if (text.IsNullOrEmpty() || name.IsNullOrEmpty())
         {
             return null;
         }
 
-        var wordsInFile = MyRegex().Replace(text, " ").ToUpper().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var wordsInText = MyRegex().Replace(text, " ").ToUpper().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
         var wordTasks = new List<Task<ulong>>();
-        foreach (var word in wordsInFile)
+        foreach (var word in wordsInText)
         {
-            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).WordCalculate(word, fileName));
+            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).WordCalculate(word, name));
         }
         _ = await Task.WhenAll(wordTasks);
 
@@ -42,7 +42,7 @@ public partial class FileGrain : Grain, IFileGrain
         foreach (var length in lengthShowing)
         {
             _ = int.TryParse(length.ToString(), out var grainKey);
-            var counter = await GrainFactory.GetGrain<INumberGrain>(fileName + grainKey).GetCounter();
+            var counter = await GrainFactory.GetGrain<INumberGrain>(name + grainKey).GetCounter();
             _result.Add(length, counter);
         }
 

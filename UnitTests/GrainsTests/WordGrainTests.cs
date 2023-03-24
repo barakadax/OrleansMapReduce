@@ -13,6 +13,6 @@ public class WordGrainTests
         var wordGrain = new WordGrain(null, null);
 
         // Act + Assert
-        _ = Assert.ThrowsAsync<NullReferenceException>(async () => await wordGrain.WordCalculate(string.Empty, "fileName"));
+        _ = Assert.ThrowsAsync<NullReferenceException>(async () => await wordGrain.WordCalculate(string.Empty, "name"));
     }
 }

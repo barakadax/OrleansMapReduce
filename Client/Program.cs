@@ -80,8 +80,8 @@ public class Program
 
     private static (Task<Dictionary<ulong, ulong>>, string) RunGrain(IClusterClient client, string fileName, string fileContent)
     {
-        var fileGrain = client.GetGrain<IFileGrain>(fileName);
-        return (fileGrain.ProcessHistogram(fileContent, fileName), fileName);
+        var textGrain = client.GetGrain<ITextGrain>(fileName);
+        return (textGrain.ProcessHistogram(fileContent, fileName), fileName);
     }
 
     private static void ReadResult(Dictionary<ulong, ulong> result, string origin)

@@ -28,12 +28,12 @@ public class WordGrainTests
     public async Task CalculateWordLength_OneWord_ShouldReturnCorrectLength(string word)
     {
         // Arrange
-        var fileName = Guid.NewGuid().ToString("N");
+        var name = Guid.NewGuid().ToString("N");
 
         // Act
-        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(fileName);
-        var resultFromWordGrain = await wordGrain.WordCalculate(word, fileName);
-        var resultFromNumberGrain = await _host.Cluster.GrainFactory.GetGrain<INumberGrain>($"{fileName}{word.Length}").GetCounter();
+        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(name);
+        var resultFromWordGrain = await wordGrain.WordCalculate(word, name);
+        var resultFromNumberGrain = await _host.Cluster.GrainFactory.GetGrain<INumberGrain>($"{name}{word.Length}").GetCounter();
 
         // Assert
         Assert.AreEqual(word.Length, resultFromWordGrain);
@@ -46,13 +46,13 @@ public class WordGrainTests
     public async Task CalculateWordLength_TwoWordWithSameLength_ShouldReturnCorrectLength(string word1, string word2)
     {
         // Arrange
-        var fileName = Guid.NewGuid().ToString("N");
+        var name = Guid.NewGuid().ToString("N");
 
         // Act
-        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(fileName);
-        var result1 = await wordGrain.WordCalculate(word1, fileName);
-        var result2 = await wordGrain.WordCalculate(word2, fileName);
-        var resultFromNumberGrain = await _host.Cluster.GrainFactory.GetGrain<INumberGrain>($"{fileName}{word1.Length}").GetCounter();
+        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(name);
+        var result1 = await wordGrain.WordCalculate(word1, name);
+        var result2 = await wordGrain.WordCalculate(word2, name);
+        var resultFromNumberGrain = await _host.Cluster.GrainFactory.GetGrain<INumberGrain>($"{name}{word1.Length}").GetCounter();
 
         // Assert
         Assert.AreEqual(word1.Length, word2.Length);
@@ -65,11 +65,11 @@ public class WordGrainTests
     public async Task CalculateWordLength_Null_ShouldReturnZero()
     {
         // Arrange
-        var fileName = Guid.NewGuid().ToString("N");
+        var name = Guid.NewGuid().ToString("N");
 
         // Act
-        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(fileName);
-        var result = await wordGrain.WordCalculate(null, fileName);
+        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(name);
+        var result = await wordGrain.WordCalculate(null, name);
 
         // Assert
         Assert.AreEqual(0, result);
@@ -79,11 +79,11 @@ public class WordGrainTests
     public async Task CalculateWordLength_StringEmpty_ShouldReturnZero()
     {
         // Arrange
-        var fileName = Guid.NewGuid().ToString("N");
+        var name = Guid.NewGuid().ToString("N");
 
         // Act
-        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(fileName);
-        var result = await wordGrain.WordCalculate(string.Empty, fileName);
+        var wordGrain = _host.Cluster.GrainFactory.GetGrain<IWordGrain>(name);
+        var result = await wordGrain.WordCalculate(string.Empty, name);
 
         // Assert
         Assert.AreEqual(0, result);

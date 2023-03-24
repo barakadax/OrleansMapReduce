@@ -39,14 +39,14 @@ Word Length: 17 | encountered: 5<br>
 <br>
 ### TODO:
 <ul>
-  <li>New grain RequestGrain that will handle creating file grains and will get multiple input</li>
-  <li>Refactor the name file to name and refactor the name content/data to text</li>
+  <li>Fix Regex, use test: ProcessHistogram_InputWithNoneAlphabeticalWords_ShouldReturnExpected to fix.</li>
+  <li>New grain RequestGrain that will handle creating file grains and will get multiple input.</li>
   <li>Add rest:</li>
   <ol>
-    <li>Post -> text only</li>
-    <li>Post -> text + origin</li>
-    <li>Get -> origin</li>
+    <li>Post -> text only.</li>
+    <li>Post -> text + origin.</li>
+    <li>Get -> origin.</li>
   </ol>
-  <li>Swagger + UI</li>
-  <li>Api tests</li>
+  <li>Swagger + UI.</li>
+  <li>Api tests.</li>
 </ul>

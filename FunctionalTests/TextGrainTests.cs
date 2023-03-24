@@ -5,7 +5,7 @@ namespace FunctionalTests;
 
 [TestFixture]
 [Parallelizable(ParallelScope.All)]
-public class FileGrainTests
+public class TextGrainTests
 {
     private TestHost<TestSiloConfigurations> _host;
 
@@ -22,15 +22,31 @@ public class FileGrainTests
     }
 
     [Test]
+    public async Task ProcessHistogram_InputWithNoneAlphabeticalWords_ShouldReturnExpected()
+    {
+        // Arrange
+        var name = Guid.NewGuid().ToString("N");
+        var textGrain = _host.Cluster.GrainFactory.GetGrain<ITextGrain>(name);
+        var text = "a1 2b three four c5d six, e7!f. eight g9h! ?";
+
+        // Act
+        var result = await textGrain.ProcessHistogram(text, name);
+
+        // Assert
+        Assert.AreEqual(4, result.Count);
+        // Need to fix regex to continue this test
+    }
+
+    [Test]
     public async Task ProcessHistogram_GoodInput_ShouldReturnExpected()
     {
         // Arrange
-        var fileName = Guid.NewGuid().ToString("N");
-        var fileGrain = _host.Cluster.GrainFactory.GetGrain<IFileGrain>(fileName);
+        var name = Guid.NewGuid().ToString("N");
+        var textGrain = _host.Cluster.GrainFactory.GetGrain<ITextGrain>(name);
         var text = "hey, how are you this day, I ate a banana\nמילים";
 
         // Act
-        var result = await fileGrain.ProcessHistogram(text, fileName);
+        var result = await textGrain.ProcessHistogram(text, name);
 
         // Assert
         Assert.AreEqual(5, result.Count);
@@ -45,13 +61,13 @@ public class FileGrainTests
     public async Task GetResultWithoutProcessing_GoodInput_ShouldReturnExpected()
     {
         // Arrange
-        var fileName = Guid.NewGuid().ToString("N");
-        var fileGrain = _host.Cluster.GrainFactory.GetGrain<IFileGrain>(fileName);
+        var name = Guid.NewGuid().ToString("N");
+        var textGrain = _host.Cluster.GrainFactory.GetGrain<ITextGrain>(name);
         var text = "hey, how are you this day, I ate a banana\nמילים";
 
         // Act
-        _ = await fileGrain.ProcessHistogram(text, fileName);
-        var result = await fileGrain.GetResultWithoutProcessing();
+        _ = await textGrain.ProcessHistogram(text, name);
+        var result = await textGrain.GetResultWithoutProcessing();
 
         // Assert
         Assert.AreEqual(5, result.Count);
@@ -69,9 +85,9 @@ public class FileGrainTests
         // Arrange
         var text = Guid.NewGuid().ToString("N");
         var builder = new TestHost<TestSiloConfigurationsThrows>();
-        var fileGrain = builder.Cluster.GrainFactory.GetGrain<IFileGrain>(text);
+        var textGrain = builder.Cluster.GrainFactory.GetGrain<ITextGrain>(text);
 
         // Act + Assert
-        _ = Assert.ThrowsAsync<Exception>(async () => await fileGrain.ProcessHistogram(text, text));
+        _ = Assert.ThrowsAsync<Exception>(async () => await textGrain.ProcessHistogram(text, text));
     }
 }
