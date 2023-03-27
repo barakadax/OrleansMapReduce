@@ -131,6 +131,7 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 max_empty_lines = 1
 dotnet_diagnostic.IDE0005.severity = suggestion
+dotnet_diagnostic.VSTHRD200.severity = none
 
 [*json]
 tab_width = 2
