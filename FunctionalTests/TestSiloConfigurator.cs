@@ -58,5 +58,5 @@ public class TestHost<T> : IDisposable where T : class, new()
         Cluster.Deploy();
     }
 
-    public void Dispose() => Cluster.StopAllSilos();
+    public void Dispose() => GC.SuppressFinalize(this);
 }

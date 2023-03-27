@@ -16,6 +16,9 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
+dotnet_naming_rule.async_suffix.symbols = async
+dotnet_naming_rule.async_suffix.style = none
+
 # Symbol specifications
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
@@ -78,8 +81,8 @@ csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
-csharp_style_unused_value_assignment_preference = discard_variable:suggestion
-csharp_style_unused_value_expression_statement_preference = discard_variable:suggestion
+csharp_style_unused_value_assignment_preference = discard_variable
+csharp_style_unused_value_expression_statement_preference = discard_variable
 csharp_space_around_binary_operators = before_and_after
 csharp_space_after_cast = true
 csharp_space_after_keywords_in_control_flow_statements = true
@@ -100,10 +103,13 @@ csharp_indent_switch_labels = true
 csharp_indent_block_contents = true
 csharp_indent_braces = false
 csharp_indent_case_contents_when_block = false
+csharp_style_var_when_type_is_apparent = true:suggestion
 trim_trailing_whitespace = true
 insert_final_newline = true
 max_empty_lines = 1
-dotnet_diagnostic.IDE0005.severity = suggestion
 
 [*json]
+tab_width = 2
 indent_size = 2
+end_of_line = crlf
+indent_style = space
