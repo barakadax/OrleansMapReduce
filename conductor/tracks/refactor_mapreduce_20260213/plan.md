@@ -12,7 +12,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Refactoring and Educational Enhancement' (Protocol in workflow.md) 32001df
 
 ## Phase 3: Testing and Validation
-- [~] Task: Write/Update unit tests for `TextGrain` to achieve >80% coverage
-- [ ] Task: Write/Update unit tests for `WordGrain` to achieve >80% coverage
+- [x] Task: Write/Update unit tests for `TextGrain` to achieve >80% coverage 8440930
+- [~] Task: Write/Update unit tests for `WordGrain` to achieve >80% coverage
 - [ ] Task: Run full suite of functional tests to ensure MapReduce results remain accurate
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Testing and Validation' (Protocol in workflow.md)
