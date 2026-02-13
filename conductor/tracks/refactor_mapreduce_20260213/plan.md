@@ -14,5 +14,5 @@
 ## Phase 3: Testing and Validation
 - [x] Task: Write/Update unit tests for `TextGrain` to achieve >80% coverage 8440930
 - [x] Task: Write/Update unit tests for `WordGrain` to achieve >80% coverage 05abbd0
-- [~] Task: Run full suite of functional tests to ensure MapReduce results remain accurate
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Testing and Validation' (Protocol in workflow.md)
+- [x] Task: Run full suite of functional tests to ensure MapReduce results remain accurate b1ed1e8
+- [~] Task: Conductor - User Manual Verification 'Phase 3: Testing and Validation' (Protocol in workflow.md)
