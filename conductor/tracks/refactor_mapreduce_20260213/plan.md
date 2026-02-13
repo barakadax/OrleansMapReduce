@@ -7,8 +7,8 @@
 
 ## Phase 2: Refactoring and Educational Enhancement
 - [x] Task: Refactor `GrainInterfaces` for clarity and naming consistency ca8d789
-- [~] Task: Refactor `TextGrain.cs` with educational comments and simplified logic
-- [ ] Task: Refactor `WordGrain.cs` with educational comments and simplified logic
+- [x] Task: Refactor `TextGrain.cs` with educational comments and simplified logic b8dee24
+- [~] Task: Refactor `WordGrain.cs` with educational comments and simplified logic
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Refactoring and Educational Enhancement' (Protocol in workflow.md)
 
 ## Phase 3: Testing and Validation
