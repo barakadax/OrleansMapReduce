@@ -1,12 +1,12 @@
 # Implementation Plan: Refactor MapReduce logic for educational clarity and test coverage
 
-## Phase 1: Analysis and Baseline
+## Phase 1: Analysis and Baseline [checkpoint: a91f1d1]
 - [x] Task: Audit current test coverage for Grains and GrainInterfaces a489f83
-- [~] Task: Identify complex or poorly documented logic in `TextGrain.cs` and `WordGrain.cs`
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Analysis and Baseline' (Protocol in workflow.md)
+- [x] Task: Identify complex or poorly documented logic in `TextGrain.cs` and `WordGrain.cs` 10ba8bf
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Analysis and Baseline' (Protocol in workflow.md) a91f1d1
 
 ## Phase 2: Refactoring and Educational Enhancement
-- [ ] Task: Refactor `GrainInterfaces` for clarity and naming consistency
+- [~] Task: Refactor `GrainInterfaces` for clarity and naming consistency
 - [ ] Task: Refactor `TextGrain.cs` with educational comments and simplified logic
 - [ ] Task: Refactor `WordGrain.cs` with educational comments and simplified logic
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Refactoring and Educational Enhancement' (Protocol in workflow.md)
