@@ -1,4 +1,4 @@
-﻿using Extensions;
+using Extensions;
 using GrainInterfaces;
 using System.Text.RegularExpressions;
 
@@ -11,19 +11,19 @@ public partial class TextGrain : Grain, ITextGrain
     [GeneratedRegex("\\P{L}+")]
     protected static partial Regex MyRegex();
 
-    public Task<Dictionary<ulong, ulong>> GetResultWithoutProcessing()
+    public Task<Dictionary<ulong, ulong>> GetResults()
     {
         return Task.FromResult(_result);
     }
 
-    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string text, string name)
+    public async Task<Dictionary<ulong, ulong>> ProcessText(string text, string resultIdentifier)
     {
         if (_result.NotNullNorEmpty())
         {
             return _result;
         }
 
-        if (text.IsNullOrEmpty() || name.IsNullOrEmpty())
+        if (text.IsNullOrEmpty() || resultIdentifier.IsNullOrEmpty())
         {
             return null;
         }
@@ -33,7 +33,7 @@ public partial class TextGrain : Grain, ITextGrain
         var wordTasks = new List<Task<ulong>>();
         foreach (var word in wordsInText)
         {
-            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).WordCalculate(word, name));
+            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).ProcessWord(word, resultIdentifier));
         }
         _ = await Task.WhenAll(wordTasks);
 
@@ -42,7 +42,7 @@ public partial class TextGrain : Grain, ITextGrain
         foreach (var length in lengthShowing)
         {
             _ = int.TryParse(length.ToString(), out var grainKey);
-            var counter = await GrainFactory.GetGrain<INumberGrain>(name + grainKey).GetCounter();
+            var counter = await GrainFactory.GetGrain<INumberGrain>(resultIdentifier + grainKey).GetCount();
             _result.Add(length, counter);
         }
 

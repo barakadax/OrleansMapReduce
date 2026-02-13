@@ -1,4 +1,4 @@
-﻿using Extensions;
+using Extensions;
 using Grains;
 using NUnit.Framework;
 
@@ -8,52 +8,52 @@ namespace UnitTests.GrainsTests;
 public class TextGrainTests
 {
     [Test]
-    public async Task GetResultWithoutProcessing_NeverCalculated_ShouldReturnEmpty()
+    public async Task GetResults_NeverCalculated_ShouldReturnEmpty()
     {
         // Assert
         var textGrain = new TextGrain();
 
         // Act
-        var result = await textGrain.GetResultWithoutProcessing();
+        var result = await textGrain.GetResults();
 
         // Assert
         Assert.That(result.IsNullOrEmpty(), Is.True);
     }
 
     [Test]
-    public async Task ProcessHistogram_TextIsNull_ShouldReturnNull()
+    public async Task ProcessText_TextIsNull_ShouldReturnNull()
     {
         // Assert
         var textGrain = new TextGrain();
 
         // Act
-        var result = await textGrain.ProcessHistogram(null, "name");
+        var result = await textGrain.ProcessText(null, "name");
 
         // Assert
         Assert.That(result, Is.Null);
     }
 
     [Test]
-    public async Task ProcessHistogram_NameIsNull_ShouldReturnNull()
+    public async Task ProcessText_NameIsNull_ShouldReturnNull()
     {
         // Assert
         var textGrain = new TextGrain();
 
         // Act
-        var result = await textGrain.ProcessHistogram("Text", null);
+        var result = await textGrain.ProcessText("Text", null);
 
         // Assert
         Assert.That(result, Is.Null);
     }
 
     [Test]
-    public async Task ProcessHistogram_NameAndTextAreNull_ShouldReturnNull()
+    public async Task ProcessText_NameAndTextAreNull_ShouldReturnNull()
     {
         // Assert
         var textGrain = new TextGrain();
 
         // Act
-        var result = await textGrain.ProcessHistogram(null, null);
+        var result = await textGrain.ProcessText(null, null);
 
         // Assert
         Assert.That(result, Is.Null);
@@ -62,13 +62,13 @@ public class TextGrainTests
     [TestCase("", "")]
     [TestCase("text", "")]
     [TestCase("", "name")]
-    public async Task ProcessHistogram_InputIsEmpty_ShouldReturnNull(string text, string name)
+    public async Task ProcessText_InputIsEmpty_ShouldReturnNull(string text, string name)
     {
         // Assert
         var textGrain = new TextGrain();
 
         // Act
-        var result = await textGrain.ProcessHistogram(text, name);
+        var result = await textGrain.ProcessText(text, name);
 
         // Assert
         Assert.That(result, Is.Null);

@@ -1,4 +1,4 @@
-﻿using Extensions;
+using Extensions;
 using Extensions.Interfaces;
 using GrainInterfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -99,7 +99,7 @@ public class Program
     private static (Task<Dictionary<ulong, ulong>>, string) RunGrain(IClusterClient client, string fileName, string fileContent)
     {
         var textGrain = client.GetGrain<ITextGrain>(fileName);
-        return (textGrain.ProcessHistogram(fileContent, fileName), fileName);
+        return (textGrain.ProcessText(fileContent, fileName), fileName);
     }
 
     private static void ReadResult(Dictionary<ulong, ulong> result, string origin, ILogger logger)

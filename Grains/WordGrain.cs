@@ -1,4 +1,4 @@
-﻿using Extensions;
+using Extensions;
 using Extensions.Interfaces;
 using Translators.Interfaces;
 using GrainInterfaces;
@@ -18,7 +18,7 @@ public class WordGrain : Grain, IWordGrain
         _translatedDictionary = translatedDictionary;
     }
 
-    public async Task<ulong> WordCalculate(string word, string name)
+    public async Task<ulong> ProcessWord(string word, string resultIdentifier)
     {
         if (_translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty() && _translatedDictionary.TranslatedWords.ContainsKey(word!))
         {
@@ -37,8 +37,8 @@ public class WordGrain : Grain, IWordGrain
 
         if (word!.NotNullNorEmpty())
         {
-            var numberGrain = GrainFactory.GetGrain<INumberGrain>(name + word!.Length);
-            await numberGrain.Increase();
+            var numberGrain = GrainFactory.GetGrain<INumberGrain>(resultIdentifier + word!.Length);
+            await numberGrain.Increment();
             return (ulong) word.Length;
         }
 
