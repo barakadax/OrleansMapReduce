@@ -7,12 +7,15 @@ namespace UnitTests.GrainsTests;
 public class WordGrainTests
 {
     [Test]
-    public void ProcessWord_Throws_ShouldGetAnException()
+    public async Task ProcessWord_EmptyInput_ShouldReturnZero()
     {
         // Assert
         var wordGrain = new WordGrain(null, null);
 
-        // Act + Assert
-        _ = Assert.ThrowsAsync<NullReferenceException>(async () => await wordGrain.ProcessWord(string.Empty, "name"));
+        // Act
+        var result = await wordGrain.ProcessWord(string.Empty, "name");
+
+        // Assert
+        Assert.That(result, Is.EqualTo(0));
     }
 }
