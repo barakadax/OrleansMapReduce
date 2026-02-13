@@ -24,7 +24,7 @@ public class NumberGrainTests
         await Task.WhenAll(taskList);
 
         // Assert
-        Assert.AreEqual(counter, await numberGrain.GetCounter());
+        Assert.That(await numberGrain.GetCounter(), Is.EqualTo(counter));
     }
 
     [Test]
@@ -34,6 +34,6 @@ public class NumberGrainTests
         var numberGrain = new NumberGrain();
 
         // Act + Assert
-        Assert.AreEqual(0, await numberGrain.GetCounter());
+        Assert.That(await numberGrain.GetCounter(), Is.EqualTo(0));
     }
 }

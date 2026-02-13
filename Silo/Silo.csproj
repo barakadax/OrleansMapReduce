@@ -17,9 +17,4 @@
     <ProjectReference Include="..\Grains\Grains.csproj" />
     <ProjectReference Include="..\Translators\Translators.csproj" />
   </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="cd ..&#xD;&#xA;xcopy /f /y &quot;./Scripts&quot; &quot;./.git/hooks/&quot;" />
-  </Target>
-
 </Project>

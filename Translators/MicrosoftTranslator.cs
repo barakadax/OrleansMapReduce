@@ -20,14 +20,21 @@ public class MicrosoftTranslator : IMicrosoftTranslator
 
     public MicrosoftTranslator()
     {
-        var credentialsJSchema = JSchema.Parse(File.ReadAllText(CredentialsValidationPath));
-        var translateCredentialsJObj = JObject.Parse(File.ReadAllText(CredentialsPath));
+        var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+        var validationPath = Path.Combine(baseDir, CredentialsValidationPath);
+        var credentialsPath = Path.Combine(baseDir, CredentialsPath);
 
-        if (translateCredentialsJObj.IsValid(credentialsJSchema))
+        if (File.Exists(validationPath) && File.Exists(credentialsPath))
         {
-            URL = translateCredentialsJObj["URL"].Value<string>();
-            KEY = translateCredentialsJObj["KEY"].Value<string>();
-            REGION = translateCredentialsJObj["REGION"].Value<string>();
+            var credentialsJSchema = JSchema.Parse(File.ReadAllText(validationPath));
+            var translateCredentialsJObj = JObject.Parse(File.ReadAllText(credentialsPath));
+
+            if (translateCredentialsJObj.IsValid(credentialsJSchema))
+            {
+                URL = translateCredentialsJObj["URL"].Value<string>();
+                KEY = translateCredentialsJObj["KEY"].Value<string>();
+                REGION = translateCredentialsJObj["REGION"].Value<string>();
+            }
         }
     }
 

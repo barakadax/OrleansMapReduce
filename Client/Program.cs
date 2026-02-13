@@ -14,10 +14,13 @@ public class Program
 {
     public static async Task Main()
     {
+        ILogger logger = null;
+        IClusterClient client = null;
+        IHost host = null;
         try
         {
             var taskList = new List<(Task<Dictionary<ulong, ulong>>, string)>();
-            var client = await GetConnection();
+            (host, client, logger) = await GetConnection();
             var mobyDick = GetMobyDick();
             taskList.Add(RunGrain(client, mobyDick.FileName, mobyDick.FileContent));
 
@@ -30,21 +33,36 @@ public class Program
             {
                 if (result.Item1.NotNullNorEmpty())
                 {
-                    ReadResult(result.Item1, result.Item2);
+                    ReadResult(result.Item1, result.Item2, logger);
                 }
                 else
                 {
-                    Console.WriteLine("Text wasn\'t processed.");
+                    logger.LogWarning("Text wasn't processed.");
                 }
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            if (logger != null)
+            {
+                logger.LogError(e, "An error occurred in the client.");
+            }
+            else
+            {
+                Console.WriteLine($"Critical failure during Client startup: {e.Message}");
+            }
+        }
+        finally
+        {
+            if (host != null)
+            {
+                await host.StopAsync();
+                host.Dispose();
+            }
         }
     }
 
-    private static async Task<IClusterClient> GetConnection()
+    private static async Task<(IHost, IClusterClient, ILogger)> GetConnection()
     {
         var host = new HostBuilder()
         .UseOrleansClient(client =>
@@ -60,21 +78,21 @@ public class Program
         .Build();
 
         await host.StartAsync();
-        Console.WriteLine("Connected to Silo!");
-        Console.WriteLine();
+        var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Client");
+        logger.LogInformation("Connected to Silo!");
 
-        return host.Services.GetRequiredService<IClusterClient>();
+        return (host, host.Services.GetRequiredService<IClusterClient>(), logger);
     }
 
     private static InitRecord GetAIW()
     {
-        var fileContent = File.ReadAllText("AIW.txt");
+        var fileContent = File.ReadAllText("./Client/AIW.txt");
         return new InitRecord() { FileName = "Alice's Adventures in Wonderland", FileContent = fileContent };
     }
 
     private static InitRecord GetMobyDick()
     {
-        var fileContent = File.ReadAllText("MobyDick.txt");
+        var fileContent = File.ReadAllText("./Client/MobyDick.txt");
         return new InitRecord() { FileName = "Moby Dick", FileContent = fileContent };
     }
 
@@ -84,13 +102,12 @@ public class Program
         return (textGrain.ProcessHistogram(fileContent, fileName), fileName);
     }
 
-    private static void ReadResult(Dictionary<ulong, ulong> result, string origin)
+    private static void ReadResult(Dictionary<ulong, ulong> result, string origin, ILogger logger)
     {
-        Console.WriteLine($"{origin}:");
+        logger.LogInformation("{Origin}:", origin);
         foreach (var item in result!)
         {
-            Console.WriteLine($"Word Length: {item.Key} | encountered: {item.Value}");
+            logger.LogInformation("Word Length: {Key} | encountered: {Value}", item.Key, item.Value);
         }
-        Console.WriteLine();
     }
 }

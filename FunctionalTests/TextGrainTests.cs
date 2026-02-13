@@ -33,7 +33,7 @@ public class TextGrainTests
         var result = await textGrain.ProcessHistogram(text, name);
 
         // Assert
-        Assert.AreEqual(4, result.Count);
+        Assert.That(result.Count, Is.EqualTo(4));
         // Need to fix regex to continue this test
     }
 
@@ -49,12 +49,12 @@ public class TextGrainTests
         var result = await textGrain.ProcessHistogram(text, name);
 
         // Assert
-        Assert.AreEqual(5, result.Count);
-        Assert.AreEqual(2, result[1]);
-        Assert.AreEqual(6, result[3]);
-        Assert.AreEqual(1, result[4]);
-        Assert.AreEqual(1, result[5]);
-        Assert.AreEqual(1, result[6]);
+        Assert.That(result.Count, Is.EqualTo(5));
+        Assert.That(result[1], Is.EqualTo(2));
+        Assert.That(result[3], Is.EqualTo(6));
+        Assert.That(result[4], Is.EqualTo(1));
+        Assert.That(result[5], Is.EqualTo(1));
+        Assert.That(result[6], Is.EqualTo(1));
     }
 
     [Test]
@@ -70,12 +70,12 @@ public class TextGrainTests
         var result = await textGrain.GetResultWithoutProcessing();
 
         // Assert
-        Assert.AreEqual(5, result.Count);
-        Assert.AreEqual(2, result[1]);
-        Assert.AreEqual(6, result[3]);
-        Assert.AreEqual(1, result[4]);
-        Assert.AreEqual(1, result[5]);
-        Assert.AreEqual(1, result[6]);
+        Assert.That(result.Count, Is.EqualTo(5));
+        Assert.That(result[1], Is.EqualTo(2));
+        Assert.That(result[3], Is.EqualTo(6));
+        Assert.That(result[4], Is.EqualTo(1));
+        Assert.That(result[5], Is.EqualTo(1));
+        Assert.That(result[6], Is.EqualTo(1));
     }
 
     [Test]

@@ -36,8 +36,8 @@ public class WordGrainTests
         var resultFromNumberGrain = await _host.Cluster.GrainFactory.GetGrain<INumberGrain>($"{name}{word.Length}").GetCounter();
 
         // Assert
-        Assert.AreEqual(word.Length, resultFromWordGrain);
-        Assert.AreEqual(1, resultFromNumberGrain);
+        Assert.That(resultFromWordGrain, Is.EqualTo(word.Length));
+        Assert.That(resultFromNumberGrain, Is.EqualTo(1));
     }
 
     [TestCase("a", "I")]
@@ -55,10 +55,10 @@ public class WordGrainTests
         var resultFromNumberGrain = await _host.Cluster.GrainFactory.GetGrain<INumberGrain>($"{name}{word1.Length}").GetCounter();
 
         // Assert
-        Assert.AreEqual(word1.Length, word2.Length);
-        Assert.AreEqual(word1.Length, result1);
-        Assert.AreEqual(word1.Length, result2);
-        Assert.AreEqual(2, resultFromNumberGrain);
+        Assert.That(word2.Length, Is.EqualTo(word1.Length));
+        Assert.That(result1, Is.EqualTo(word1.Length));
+        Assert.That(result2, Is.EqualTo(word1.Length));
+        Assert.That(resultFromNumberGrain, Is.EqualTo(2));
     }
 
     [Test]
@@ -72,7 +72,7 @@ public class WordGrainTests
         var result = await wordGrain.WordCalculate(null, name);
 
         // Assert
-        Assert.AreEqual(0, result);
+        Assert.That(result, Is.EqualTo(0));
     }
 
     [Test]
@@ -86,6 +86,6 @@ public class WordGrainTests
         var result = await wordGrain.WordCalculate(string.Empty, name);
 
         // Assert
-        Assert.AreEqual(0, result);
+        Assert.That(result, Is.EqualTo(0));
     }
 }

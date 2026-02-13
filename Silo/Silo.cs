@@ -13,16 +13,27 @@ public static class Silo
 {
     public static async Task RunSilo()
     {
+        IHost host = null;
         try
         {
-            var silo = await GetSilo();
-            Console.WriteLine("Silo has started running, press enter to terminate.");
+            host = await GetSilo();
+            var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Silo");
+            logger.LogInformation("Silo has started running, press enter to terminate.");
             _ = Console.ReadLine();
-            await silo.StopAsync();
+            await host.StopAsync();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            if (host != null)
+            {
+                var logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Silo");
+                logger.LogError(e, "An error occurred while running the silo.");
+            }
+            else
+            {
+                // Fallback if host failed to start
+                Console.WriteLine($"Critical failure during Silo startup: {e.Message}");
+            }
         }
     }
 

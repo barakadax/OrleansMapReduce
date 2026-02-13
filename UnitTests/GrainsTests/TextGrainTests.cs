@@ -17,7 +17,7 @@ public class TextGrainTests
         var result = await textGrain.GetResultWithoutProcessing();
 
         // Assert
-        Assert.IsTrue(result.IsNullOrEmpty());
+        Assert.That(result.IsNullOrEmpty(), Is.True);
     }
 
     [Test]
@@ -30,7 +30,7 @@ public class TextGrainTests
         var result = await textGrain.ProcessHistogram(null, "name");
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class TextGrainTests
         var result = await textGrain.ProcessHistogram("Text", null);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class TextGrainTests
         var result = await textGrain.ProcessHistogram(null, null);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 
     [TestCase("", "")]
@@ -71,6 +71,6 @@ public class TextGrainTests
         var result = await textGrain.ProcessHistogram(text, name);
 
         // Assert
-        Assert.IsNull(result);
+        Assert.That(result, Is.Null);
     }
 }

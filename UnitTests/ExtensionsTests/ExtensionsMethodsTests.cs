@@ -12,7 +12,7 @@ public class ExtensionsMethodsTests
     public void String_IsNullOrEmpty_ShouldSucceed(string value, bool expected)
     {
         // Arrange Act & Assert
-        Assert.AreEqual(expected, value.IsNullOrEmpty());
+        Assert.That(value.IsNullOrEmpty(), Is.EqualTo(expected));
     }
 
     [TestCase("", false)]
@@ -21,7 +21,7 @@ public class ExtensionsMethodsTests
     public void String_NotNullNorEmpty_ShouldSucceed(string value, bool expected)
     {
         // Arrange Act & Assert
-        Assert.AreEqual(expected, value.NotNullNorEmpty());
+        Assert.That(value.NotNullNorEmpty(), Is.EqualTo(expected));
     }
 
     [Test]
@@ -31,7 +31,7 @@ public class ExtensionsMethodsTests
         Dictionary<ulong, ulong> value = null;
 
         // Act + Arrange
-        Assert.IsTrue(value!.IsNullOrEmpty());
+        Assert.That(value!.IsNullOrEmpty(), Is.True);
     }
 
     [Test]
@@ -41,7 +41,7 @@ public class ExtensionsMethodsTests
         var value = new Dictionary<ulong, ulong>();
 
         // Act + Arrange
-        Assert.IsTrue(value.IsNullOrEmpty());
+        Assert.That(value.IsNullOrEmpty(), Is.True);
     }
 
     [Test]
@@ -51,7 +51,7 @@ public class ExtensionsMethodsTests
         var value = new Dictionary<ulong, ulong>() { [1] = 1 };
 
         // Act + Arrange
-        Assert.IsFalse(value.IsNullOrEmpty());
+        Assert.That(value.IsNullOrEmpty(), Is.False);
     }
 
     [Test]
@@ -61,7 +61,7 @@ public class ExtensionsMethodsTests
         Dictionary<ulong, ulong> value = null;
 
         // Act + Arrange
-        Assert.IsFalse(value!.NotNullNorEmpty());
+        Assert.That(value!.NotNullNorEmpty(), Is.False);
     }
 
     [Test]
@@ -71,7 +71,7 @@ public class ExtensionsMethodsTests
         var value = new Dictionary<ulong, ulong>();
 
         // Act + Arrange
-        Assert.IsFalse(value.NotNullNorEmpty());
+        Assert.That(value.NotNullNorEmpty(), Is.False);
     }
 
     [Test]
@@ -81,6 +81,6 @@ public class ExtensionsMethodsTests
         var value = new Dictionary<ulong, ulong>() { [1] = 1 };
 
         // Act + Arrange
-        Assert.IsTrue(value.NotNullNorEmpty());
+        Assert.That(value.NotNullNorEmpty(), Is.True);
     }
 }
