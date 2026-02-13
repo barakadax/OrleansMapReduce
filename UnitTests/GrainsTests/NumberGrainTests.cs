@@ -1,4 +1,4 @@
-﻿using Grains;
+using Grains;
 using NUnit.Framework;
 
 namespace UnitTests.GrainsTests;
@@ -9,7 +9,7 @@ public class NumberGrainTests
     [TestCase(1)]
     [TestCase(100)]
     [TestCase(100000)]
-    public async Task Increase_PerCase_ShouldSucceed(int counter)
+    public async Task Increment_PerCase_ShouldSucceed(int counter)
     {
         // Arrange
         var taskList = new List<Task>();
@@ -18,22 +18,22 @@ public class NumberGrainTests
         // Act
         for (int i = 0; i < counter; i -= -1)
         {
-            taskList.Add(numberGrain.Increase());
+            taskList.Add(numberGrain.Increment());
         }
 
         await Task.WhenAll(taskList);
 
         // Assert
-        Assert.AreEqual(counter, await numberGrain.GetCounter());
+        Assert.That(await numberGrain.GetCount(), Is.EqualTo(counter));
     }
 
     [Test]
-    public async Task GetCounter_GetZero_ShouldSucceed()
+    public async Task GetCount_GetZero_ShouldSucceed()
     {
         // Arrange
         var numberGrain = new NumberGrain();
 
         // Act + Assert
-        Assert.AreEqual(0, await numberGrain.GetCounter());
+        Assert.That(await numberGrain.GetCount(), Is.EqualTo(0));
     }
 }

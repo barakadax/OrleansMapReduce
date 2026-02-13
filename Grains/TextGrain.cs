@@ -1,49 +1,62 @@
-﻿using Extensions;
+using Extensions;
 using GrainInterfaces;
 using System.Text.RegularExpressions;
 
 namespace Grains;
 
-public partial class TextGrain : Grain, ITextGrain
+public partial class TextGrain(IGrainFactory grainFactory) : Grain, ITextGrain
 {
-    private readonly Dictionary<ulong, ulong> _result = new();
+    private readonly IGrainFactory _grainFactory = grainFactory;
+    private readonly Dictionary<ulong, ulong> _result = [];
 
     [GeneratedRegex("\\P{L}+")]
-    protected static partial Regex MyRegex();
+    protected static partial Regex WordSplitRegex();
 
-    public Task<Dictionary<ulong, ulong>> GetResultWithoutProcessing()
+    public Task<Dictionary<ulong, ulong>> GetResults()
     {
         return Task.FromResult(_result);
     }
 
-    public async Task<Dictionary<ulong, ulong>> ProcessHistogram(string text, string name)
+    public async Task<Dictionary<ulong, ulong>> ProcessText(string text, string resultIdentifier)
     {
         if (_result.NotNullNorEmpty())
         {
             return _result;
         }
 
-        if (text.IsNullOrEmpty() || name.IsNullOrEmpty())
+        if (text.IsNullOrEmpty() || resultIdentifier.IsNullOrEmpty())
         {
             return null;
         }
 
-        var wordsInText = MyRegex().Replace(text, " ").ToUpper().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var wordsInText = WordSplitRegex()
+            .Replace(text, " ")
+            .ToUpper()
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-        var wordTasks = new List<Task<ulong>>();
-        foreach (var word in wordsInText)
-        {
-            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).WordCalculate(word, name));
-        }
+        var wordTasks = wordsInText
+            .Select(word => _grainFactory.GetGrain<IWordGrain>(word).ProcessWord(word, resultIdentifier))
+            .ToList();
+
         _ = await Task.WhenAll(wordTasks);
 
-        var lengthShowing = wordTasks.Select(x => x.Result).Distinct().OrderBy(x => x).ToArray();
+        var uniqueLengths = wordTasks
+            .Select(x => x.Result)
+            .Distinct()
+            .OrderBy(x => x);
 
-        foreach (var length in lengthShowing)
+        var results = await Task.WhenAll(uniqueLengths
+            .Where(length => length != 0)
+            .Select(async length =>
+            {
+                var counterGrain = _grainFactory.GetGrain<INumberGrain>($"{resultIdentifier}{length}");
+                var count = await counterGrain.GetCount();
+                return new { Length = length, Count = count };
+            }));
+
+        foreach (var res in results)
         {
-            _ = int.TryParse(length.ToString(), out var grainKey);
-            var counter = await GrainFactory.GetGrain<INumberGrain>(name + grainKey).GetCounter();
-            _result.Add(length, counter);
+            _result.Add(res.Length, res.Count);
         }
 
         return _result;

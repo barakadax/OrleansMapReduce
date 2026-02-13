@@ -1,7 +1,7 @@
-﻿namespace GrainInterfaces;
+namespace GrainInterfaces;
 
 public interface ITextGrain : IGrainWithStringKey
 {
-    Task<Dictionary<ulong, ulong>> GetResultWithoutProcessing();
-    Task<Dictionary<ulong, ulong>> ProcessHistogram(string text, string name);
+    Task<Dictionary<ulong, ulong>> GetResults();
+    Task<Dictionary<ulong, ulong>> ProcessText(string text, string resultIdentifier);
 }

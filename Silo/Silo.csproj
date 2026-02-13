@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="cd ..&#xD;&#xA;xcopy /f /y &quot;./Scripts&quot; &quot;./.git/hooks/&quot;" />
+    <Exec Command="cd ..&#xD;&#xA;xcopy /f /y &quot;./Scripts&quot; &quot;./.git/hooks/&quot;" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="cp ../Scripts/* ../.git/hooks/ &amp;&amp; chmod +x ../.git/hooks/*" Condition="'$(OS)' != 'Windows_NT'" />
   </Target>
-
 </Project>

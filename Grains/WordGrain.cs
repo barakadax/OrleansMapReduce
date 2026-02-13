@@ -1,47 +1,44 @@
-﻿using Extensions;
+using Extensions;
 using Extensions.Interfaces;
 using Translators.Interfaces;
 using GrainInterfaces;
 
 namespace Grains;
 
-public class WordGrain : Grain, IWordGrain
+public class WordGrain(IMicrosoftTranslator translator, ITranslatedWordsDictionary translatedDictionary, IGrainFactory grainFactory) : Grain, IWordGrain
 {
-    private readonly ITranslatedWordsDictionary _translatedDictionary;
-    private readonly IMicrosoftTranslator _translator;
+    private readonly ITranslatedWordsDictionary _translatedDictionary = translatedDictionary;
+    private readonly IMicrosoftTranslator _translator = translator;
+    private readonly IGrainFactory _grainFactory = grainFactory;
+
     private string _translatedWord;
 
-    public WordGrain(IMicrosoftTranslator translator, ITranslatedWordsDictionary translatedDictionary)
+    public async Task<ulong> ProcessWord(string word, string resultIdentifier)
     {
-        _translatedWord = null;
-        _translator = translator;
-        _translatedDictionary = translatedDictionary;
-    }
-
-    public async Task<ulong> WordCalculate(string word, string name)
-    {
-        if (_translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty() && _translatedDictionary.TranslatedWords.ContainsKey(word!))
+        if (word.IsNullOrEmpty() || resultIdentifier.IsNullOrEmpty())
         {
-            _translatedWord = _translatedDictionary.TranslatedWords[word!];
-        }
-        else if (_translator.CanTranslate() && _translatedWord!.IsNullOrEmpty() && word!.NotNullNorEmpty())
-        {
-            _translatedWord = await _translator.GetWordTranslation(word);
-            _ = _translatedDictionary.TranslatedWords.TryAdd(word!, _translatedWord!);
+            return 0;
         }
 
-        if (_translatedWord!.NotNullNorEmpty())
+        if (_translatedWord.IsNullOrEmpty())
         {
-            word = _translatedWord;
+            if (_translatedDictionary.TranslatedWords.TryGetValue(word, out var cachedTranslation))
+            {
+                _translatedWord = cachedTranslation;
+            }
+            else if (_translator.CanTranslate())
+            {
+                _translatedWord = await _translator.GetWordTranslation(word);
+                _translatedDictionary.TranslatedWords.TryAdd(word, _translatedWord);
+            }
         }
 
-        if (word!.NotNullNorEmpty())
-        {
-            var numberGrain = GrainFactory.GetGrain<INumberGrain>(name + word!.Length);
-            await numberGrain.Increase();
-            return (ulong) word.Length;
-        }
+        var finalWord = _translatedWord.NotNullNorEmpty() ? _translatedWord : word;
+        var wordLength = (ulong) finalWord.Length;
+        var numberGrain = _grainFactory.GetGrain<INumberGrain>($"{resultIdentifier}{wordLength}");
 
-        return 0;
+        await numberGrain.Increment();
+
+        return wordLength;
     }
 }
