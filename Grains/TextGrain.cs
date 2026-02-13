@@ -11,6 +11,8 @@ namespace Grains;
 /// </summary>
 public partial class TextGrain : Grain, ITextGrain
 {
+    private readonly IGrainFactory _grainFactory;
+
     // Holds the final histogram of word lengths.
     // ulong (Length) -> ulong (Count)
     private readonly Dictionary<ulong, ulong> _result = new();
@@ -18,6 +20,11 @@ public partial class TextGrain : Grain, ITextGrain
     // Regex to identify non-alphabetical characters for splitting.
     [GeneratedRegex("\\P{L}+")]
     protected static partial Regex WordSplitRegex();
+
+    public TextGrain(IGrainFactory grainFactory)
+    {
+        _grainFactory = grainFactory;
+    }
 
     /// <summary>
     /// Returns the previously calculated results without re-processing.
@@ -59,7 +66,7 @@ public partial class TextGrain : Grain, ITextGrain
         foreach (var word in wordsInText)
         {
             // We use the word itself as the Grain ID to potentially reuse grains for the same word.
-            wordTasks.Add(GrainFactory.GetGrain<IWordGrain>(word).ProcessWord(word, resultIdentifier));
+            wordTasks.Add(_grainFactory.GetGrain<IWordGrain>(word).ProcessWord(word, resultIdentifier));
         }
 
         // Wait for all Map operations to complete.
@@ -79,7 +86,7 @@ public partial class TextGrain : Grain, ITextGrain
             if (length == 0) continue;
 
             // The resultIdentifier ensures that counters from different jobs don't collide.
-            var counterGrain = GrainFactory.GetGrain<INumberGrain>($"{resultIdentifier}{length}");
+            var counterGrain = _grainFactory.GetGrain<INumberGrain>($"{resultIdentifier}{length}");
             var totalCount = await counterGrain.GetCount();
             
             _result.Add(length, totalCount);
