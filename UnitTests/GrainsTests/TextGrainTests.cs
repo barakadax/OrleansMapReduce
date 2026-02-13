@@ -56,16 +56,16 @@ public class TextGrainTests
 
         // Mock WordGrains
         var helloWordGrain = Substitute.For<IWordGrain>();
-        helloWordGrain.ProcessWord("HELLO", resultIdentifier).Returns((ulong)5);
+        helloWordGrain.ProcessWord("HELLO", resultIdentifier).Returns((ulong) 5);
         _grainFactory.GetGrain<IWordGrain>("HELLO").Returns(helloWordGrain);
 
         var worldWordGrain = Substitute.For<IWordGrain>();
-        worldWordGrain.ProcessWord("WORLD", resultIdentifier).Returns((ulong)5);
+        worldWordGrain.ProcessWord("WORLD", resultIdentifier).Returns((ulong) 5);
         _grainFactory.GetGrain<IWordGrain>("WORLD").Returns(worldWordGrain);
 
         // Mock NumberGrain (Reducer)
         var length5Counter = Substitute.For<INumberGrain>();
-        length5Counter.GetCount().Returns((ulong)2);
+        length5Counter.GetCount().Returns((ulong) 2);
         _grainFactory.GetGrain<INumberGrain>("job15").Returns(length5Counter);
 
         // Act
@@ -74,7 +74,7 @@ public class TextGrainTests
         // Assert
         Assert.That(result.Count, Is.EqualTo(1));
         Assert.That(result[5], Is.EqualTo(2));
-        
+
         // Verify Interactions
         _ = _grainFactory.Received(1).GetGrain<IWordGrain>("HELLO");
         _ = _grainFactory.Received(1).GetGrain<IWordGrain>("WORLD");
@@ -93,11 +93,11 @@ public class TextGrainTests
 
         // Mock a single word flow
         var testWordGrain = Substitute.For<IWordGrain>();
-        testWordGrain.ProcessWord("TEST", resultIdentifier).Returns((ulong)4);
+        testWordGrain.ProcessWord("TEST", resultIdentifier).Returns((ulong) 4);
         _grainFactory.GetGrain<IWordGrain>("TEST").Returns(testWordGrain);
 
         var length4Counter = Substitute.For<INumberGrain>();
-        length4Counter.GetCount().Returns((ulong)1);
+        length4Counter.GetCount().Returns((ulong) 1);
         _grainFactory.GetGrain<INumberGrain>("job14").Returns(length4Counter);
 
         // First call

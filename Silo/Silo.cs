@@ -31,7 +31,6 @@ public static class Silo
             }
             else
             {
-                // Fallback if host failed to start
                 Console.WriteLine($"Critical failure during Silo startup: {e.Message}");
             }
         }

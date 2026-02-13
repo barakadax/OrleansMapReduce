@@ -21,10 +21,9 @@ public class WordGrainTests
     {
         _translator = Substitute.For<IMicrosoftTranslator>();
         _grainFactory = Substitute.For<IGrainFactory>();
-        // Use the concrete record struct since it's just a simple wrapper around a ConcurrentDictionary
-        _translatedDictionary = new TranslatedWordsDictionary 
-        { 
-            TranslatedWords = new ConcurrentDictionary<string, string>() 
+        _translatedDictionary = new TranslatedWordsDictionary
+        {
+            TranslatedWords = new ConcurrentDictionary<string, string>()
         };
     }
 
@@ -91,7 +90,7 @@ public class WordGrainTests
         var wordGrain = new WordGrain(_translator, _translatedDictionary, _grainFactory);
         var word = "dog";
         var resultIdentifier = "job1";
-        
+
         _translator.CanTranslate().Returns(true);
         _translator.GetWordTranslation(word).Returns("perro");
 

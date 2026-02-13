@@ -34,7 +34,6 @@ public class TextGrainTests
 
         // Assert
         Assert.That(result.Count, Is.EqualTo(4));
-        // Need to fix regex to continue this test
     }
 
     [Test]

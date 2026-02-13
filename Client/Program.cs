@@ -1,4 +1,5 @@
 using Extensions;
+using System.Text;
 using Extensions.Interfaces;
 using GrainInterfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +20,10 @@ public class Program
         IHost host = null;
         try
         {
-            var taskList = new List<(Task<Dictionary<ulong, ulong>>, string)>();
             (host, client, logger) = await GetConnection();
+
+            List<(Task<Dictionary<ulong, ulong>>, string)> taskList = [];
+
             var mobyDick = GetMobyDick();
             taskList.Add(RunGrain(client, mobyDick.FileName, mobyDick.FileContent));
 
@@ -29,16 +32,14 @@ public class Program
 
             var results = await Task.WhenAll(taskList.Select(async x => (await x.Item1, x.Item2)));
 
-            foreach (var result in results)
+            foreach (var item in results.Where(x => x.Item1.NotNullNorEmpty()))
             {
-                if (result.Item1.NotNullNorEmpty())
-                {
-                    ReadResult(result.Item1, result.Item2, logger);
-                }
-                else
-                {
-                    logger.LogWarning("Text wasn't processed.");
-                }
+                ReadResult(item.Item1, item.Item2, logger);
+            }
+
+            foreach (var _ in results.Where(x => !x.Item1.NotNullNorEmpty()))
+            {
+                logger.LogWarning("Text wasn't processed.");
             }
         }
         catch (Exception e)
@@ -104,10 +105,10 @@ public class Program
 
     private static void ReadResult(Dictionary<ulong, ulong> result, string origin, ILogger logger)
     {
-        logger.LogInformation("{Origin}:", origin);
-        foreach (var item in result!)
-        {
-            logger.LogInformation("Word Length: {Key} | encountered: {Value}", item.Key, item.Value);
-        }
+        var myStringBuilder = new StringBuilder($"{{Origin}}: {origin}\n");
+        var lines = result!.Select(item => $"Word Length: {item.Key} | encountered: {item.Value}");
+        myStringBuilder.Append(string.Join("\n", lines));
+        myStringBuilder.Append("\n");
+        logger.LogInformation(myStringBuilder.ToString());
     }
 }
