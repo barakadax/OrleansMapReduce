@@ -13,7 +13,6 @@
     <PackageReference Include="NSubstitute" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="NUnit3TestAdapter" />
-    <PackageReference Include="coverlet.collector" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Unity.Microsoft.DependencyInjection" />
   </ItemGroup>
@@ -24,6 +23,10 @@
     <ProjectReference Include="..\Grains\Grains.csproj" />
     <ProjectReference Include="..\Silo\Silo.csproj" />
     <ProjectReference Include="..\Translators\Translators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
   </ItemGroup>
 
 </Project>

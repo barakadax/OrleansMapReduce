@@ -33,29 +33,6 @@ To run all unit and functional tests:
 dotnet test
 ```
 
-### Test Coverage
-To run tests and collect code coverage data, use the following command:
-```bash
-dotnet test --collect:"XPlat Code Coverage"
-```
-The coverage results (`coverage.cobertura.xml`) will be available in the `TestResults` directory within each test project.
-
-#### Viewing Coverage Reports
-To view the coverage results as a human-readable HTML report, you can use `ReportGenerator`.
-
-1. **Install ReportGenerator** (global tool):
-    ```bash
-    dotnet tool install -g dotnet-reportgenerator-globaltool
-    ```
-
-2. **Generate the Report**:
-    ```bash
-    reportgenerator "-reports:**/coverage.cobertura.xml" -targetdir:TestResults/Report -reporttypes:Html
-    ```
-
-3. **Open the Report**:
-    Open the generated `TestResults/Report/index.html` file in your browser.
-
 ## Code Quality
 To ensure code style consistency and apply rules from `.editorconfig`, run:
 ```bash
