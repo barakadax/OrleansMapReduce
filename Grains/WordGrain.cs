@@ -14,15 +14,17 @@ public class WordGrain : Grain, IWordGrain
 {
     private readonly ITranslatedWordsDictionary _translatedDictionary;
     private readonly IMicrosoftTranslator _translator;
+    private readonly IGrainFactory _grainFactory;
     
     // State to hold the translated version of this word.
     private string _translatedWord;
 
-    public WordGrain(IMicrosoftTranslator translator, ITranslatedWordsDictionary translatedDictionary)
+    public WordGrain(IMicrosoftTranslator translator, ITranslatedWordsDictionary translatedDictionary, IGrainFactory grainFactory)
     {
         _translatedWord = null;
         _translator = translator;
         _translatedDictionary = translatedDictionary;
+        _grainFactory = grainFactory;
     }
 
     /// <summary>
@@ -63,7 +65,7 @@ public class WordGrain : Grain, IWordGrain
         // 3. Increment the Reducer (NumberGrain).
         // Each NumberGrain is responsible for counting words of a specific length.
         var wordLength = (ulong)finalWord.Length;
-        var numberGrain = GrainFactory.GetGrain<INumberGrain>($"{resultIdentifier}{wordLength}");
+        var numberGrain = _grainFactory.GetGrain<INumberGrain>($"{resultIdentifier}{wordLength}");
         
         // This is the 'Shuffle' or 'Reduce' trigger in MapReduce terms.
         await numberGrain.Increment();
