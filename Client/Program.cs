@@ -108,7 +108,6 @@ public class Program
         var myStringBuilder = new StringBuilder($"{{Origin}}: {origin}\n");
         var lines = result!.Select(item => $"Word Length: {item.Key} | encountered: {item.Value}");
         myStringBuilder.Append(string.Join("\n", lines));
-        myStringBuilder.Append("\n");
         logger.LogInformation(myStringBuilder.ToString());
     }
 }

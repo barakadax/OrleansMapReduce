@@ -43,11 +43,38 @@ public static class Silo
             TranslatedWords = new ConcurrentDictionary<string, string>()
         };
 
+        var isKubernetes = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("KUBERNETES_SERVICE_HOST"));
+
         var host = new HostBuilder()
             .UseOrleans(silo =>
             {
-                _ = silo.UseLocalhostClustering()
-                    .ConfigureLogging(logging => logging.AddConsole())
+                if (isKubernetes)
+                {
+                    _ = silo.UseKubernetesHosting()
+                        .ConfigureEndpoints(siloPort: 11111, gatewayPort: 30000);
+                }
+                else
+                {
+                    _ = silo.UseLocalhostClustering();
+                }
+
+                _ = silo.ConfigureLogging(logging =>
+                    {
+                        if (isKubernetes)
+                        {
+                            logging.AddJsonConsole(options =>
+                            {
+                                options.IncludeScopes = true;
+                                options.TimestampFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
+                                options.UseUtcTimestamp = true;
+                            });
+                        }
+                        else
+                        {
+                            logging.AddConsole();
+                        }
+                    })
+
                     .Configure<ClusterOptions>(options =>
                     {
                         options.ClusterId = "MapReduce";
@@ -61,8 +88,11 @@ public static class Silo
                         {
                             _ = services.AddSingleton(binding.Interface, binding.Class);
                         }
+
+                        services.AddHostedService<HealthCheckHostedService>();
                     });
-            }).Build();
+            })
+            .Build();
 
         await host.StartAsync();
 

@@ -4,6 +4,7 @@
     <PackageReference Update="Microsoft.Extensions.Logging.Console" Version="11.0.0-preview.1.26104.118" />
     <PackageReference Update="Microsoft.Orleans.Client" Version="10.0.1" />
     <PackageReference Update="Microsoft.Orleans.Server" Version="10.0.1" />
+    <PackageReference Update="Microsoft.Orleans.Hosting.Kubernetes" Version="10.0.1" />
     <PackageReference Update="Newtonsoft.Json" Version="13.0.5-beta1" />
     <PackageReference Update="Newtonsoft.Json.Schema" Version="4.0.2-beta2" />
     <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="11.0.0-preview.1.26104.118" />
