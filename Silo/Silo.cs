@@ -89,6 +89,7 @@ public static class Silo
                             _ = services.AddSingleton(binding.Interface, binding.Class);
                         }
 
+                        _ = services.AddSingleton<IHttpListenerFactory, DefaultHttpListenerFactory>();
                         services.AddHostedService<HealthCheckHostedService>();
                     });
             })

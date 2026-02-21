@@ -84,4 +84,6 @@ Word Length: 17 | encountered: 5
 
 ## TODO
 
-Minimum of 95% test coverage
+- Support from repo for test coverage
+- Minimum of 95% test coverage
+- Max time for grain

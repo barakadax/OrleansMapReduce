@@ -11,13 +11,16 @@ namespace FunctionalTests;
 public class HealthCheckHostedServiceTests
 {
     private ILogger<HealthCheckHostedService> _mockLogger;
+    private IHttpListenerFactory _mockListenerFactory;
     private HealthCheckHostedService _service;
 
     [SetUp]
     public void SetUp()
     {
         _mockLogger = Substitute.For<ILogger<HealthCheckHostedService>>();
-        _service = new HealthCheckHostedService(_mockLogger);
+        _mockListenerFactory = Substitute.For<IHttpListenerFactory>();
+        _mockListenerFactory.Create().Returns(new HttpListener());
+        _service = new HealthCheckHostedService(_mockLogger, _mockListenerFactory);
     }
 
     [TearDown]
@@ -59,51 +62,17 @@ public class HealthCheckHostedServiceTests
         Assert.That(stopTask.IsCompletedSuccessfully, Is.True, "StopAsync should complete successfully");
     }
 
-    [Test]
-    public async Task HealthCheckEndpoint_ShouldReturnNoContent()
+    [TestCase("http://localhost:8080/health/")]
+    [TestCase("http://localhost:8080/liveness/")]
+    [TestCase("http://localhost:8080/readiness/")]
+    public async Task K8sEndpoint_ShouldReturnNoContent(string url)
     {
         // Arrange
         await _service.StartAsync(CancellationToken.None);
         await Task.Delay(200);
 
         // Act
-        var response = await MakeHealthCheckRequest("http://localhost:8080/health/");
-
-        // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent),
-            $"Expected NoContent, got {response.StatusCode}");
-
-        // Cleanup
-        await _service.StopAsync(CancellationToken.None);
-    }
-
-    [Test]
-    public async Task LivenessEndpoint_ShouldReturnNoContent()
-    {
-        // Arrange
-        await _service.StartAsync(CancellationToken.None);
-        await Task.Delay(200);
-
-        // Act
-        var response = await MakeHealthCheckRequest("http://localhost:8080/liveness/");
-
-        // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent),
-            $"Expected NoContent, got {response.StatusCode}");
-
-        // Cleanup
-        await _service.StopAsync(CancellationToken.None);
-    }
-
-    [Test]
-    public async Task ReadinessEndpoint_ShouldReturnNoContent()
-    {
-        // Arrange
-        await _service.StartAsync(CancellationToken.None);
-        await Task.Delay(200);
-
-        // Act
-        var response = await MakeHealthCheckRequest("http://localhost:8080/readiness/");
+        var response = await MakeHealthCheckRequest(url);
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent),

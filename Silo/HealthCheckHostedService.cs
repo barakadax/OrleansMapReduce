@@ -10,10 +10,11 @@ public class HealthCheckHostedService : IHostedService
     private readonly HttpListener _listener;
     private CancellationTokenSource _cts;
 
-    public HealthCheckHostedService(ILogger<HealthCheckHostedService> logger)
+    public HealthCheckHostedService(ILogger<HealthCheckHostedService> logger, IHttpListenerFactory listenerFactory)
     {
         _logger = logger;
-        _listener = new HttpListener();
+        _listener = listenerFactory.Create();
+        _listener.TimeoutManager.IdleConnection = TimeSpan.FromSeconds(5);
         _listener.Prefixes.Add("http://+:8080/health/");
         _listener.Prefixes.Add("http://+:8080/liveness/");
         _listener.Prefixes.Add("http://+:8080/readiness/");
