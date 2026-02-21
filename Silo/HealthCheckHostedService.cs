@@ -44,14 +44,9 @@ public class HealthCheckHostedService : IHostedService
             try
             {
                 var context = await _listener.GetContextAsync();
-                var response = context.Response;
-                var responseString = "Healthy";
-                var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-
-                response.StatusCode = 204;
-                response.ContentLength64 = buffer.Length;
-                await response.OutputStream.WriteAsync(buffer, 0, buffer.Length);
-                response.OutputStream.Close();
+                context.Response.StatusCode = 204;
+                context.Response.ContentLength64 = 0;
+                context.Response.OutputStream.Close();
             }
             catch (Exception ex) when (ex is HttpListenerException || ex is ObjectDisposedException)
             {
